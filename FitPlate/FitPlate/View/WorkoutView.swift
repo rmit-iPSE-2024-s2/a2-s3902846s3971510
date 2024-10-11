@@ -1,224 +1,196 @@
-//
-//  WorkoutView.swift
-//  FitPlate
-//
-//  Created by margaret on 31/8/2024.
-//
-
 import SwiftUI
+import SwiftData
 
 struct WorkoutView: View {
-    // state to switch between workout views
-    @State private var selectedTab = "Explore"
-    @State private var scrollOffset: CGFloat = 0
+    @State private var selectedTab = "Explore"  // tab switcher
+    @State private var savedRoutineNames: Set<String> = []  // Track saved routines by name
+    
+    // to fetch saved workout routines using swift data
+    @Query(sort: \SavedRoutine.name, order: .forward) var savedRoutines: [SavedRoutine]
+    @Environment(\.modelContext) var modelContext  // Access SwiftData context for saving new routines
+
+    // hardcoded routines - didn't choose to use integrate swiftdata with these values as these would be constant.
+    let exploreRoutines = [
+        WorkoutRoutine(name: "Pull Day Routine", imageName: "strength1", time: "90 mins", description: "Push the limits with pull day exercises."),
+        WorkoutRoutine(name: "Push Day Routine", imageName: "strength2", time: "90 mins", description: "Push the limits with push day exercises."),
+        WorkoutRoutine(name: "Intense Glute Workout", imageName: "strength3", time: "90 mins", description: "Train your glutes with this high intensity lower body workout."),
+        WorkoutRoutine(name: "7 Minute Daily Workout", imageName: "fullbody1", time: "7 mins", description: "7 mins a day keeps the doctor away."),
+        WorkoutRoutine(name: "Fullbody Mat Routine", imageName: "fullbody2", time: "20 mins", description: "Grab your yoga mat and complete this low intensity full body workout.")
+    ]
     
     var body: some View {
         VStack {
-            // ScrollView with offset detection
-            ScrollView {
-                GeometryReader { geometry in
-                    Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).minY)
+            // Header
+            Text("Workouts")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))  // Orange color for header
+                .padding(.top)
+            
+            // tab switcher between 'Explore' and 'My Routines'
+            HStack {
+                Button(action: {
+                    selectedTab = "Explore"
+                }) {
+                    Text("Explore")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(selectedTab == "Explore" ? Color(red: 1.0, green: 0.569, blue: 0.396) : Color.white)  // Orange color for selected tab
+                        .foregroundColor(selectedTab == "Explore" ? Color.white : Color.black)
+                        .cornerRadius(8)
                 }
-                .frame(height: 0)
                 
-                VStack {
-        
-                    Text("Workouts")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))
-                        .padding(.top, scrollOffset > -100 ? 20 : 0)
-                        .opacity(scrollOffset > -100 ? 1 : 0)
+                Button(action: {
+                    selectedTab = "My Routines"
+                }) {
+                    Text("My Routines")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(selectedTab == "My Routines" ? Color(red: 1.0, green: 0.569, blue: 0.396) : Color.white)  // Orange color for selected tab
+                        .foregroundColor(selectedTab == "My Routines" ? Color.white : Color.black)
+                        .cornerRadius(8)
+                }
+            }
+            .padding(.horizontal)
 
-                    // nav tabs
-                    HStack {
-                        Button(action: {
-                            withAnimation {
-                                selectedTab = "Explore"
-                            }
-                        }) {
-                            Text("Explore")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(selectedTab == "Explore" ? Color(red: 0.819, green: 0.302, blue: 0.408) : Color.white)
-                                .foregroundColor(selectedTab == "Explore" ? Color.white : Color.black)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(red: 0.819, green: 0.302, blue: 0.408), lineWidth: selectedTab == "Explore" ? 0 : 1)
-                                )
-                        }
-                        .cornerRadius(8)
-                        
-                        Button(action: {
-                            withAnimation {
-                                selectedTab = "My Routines"
-                            }
-                        }) {
-                            Text("My Routines")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(selectedTab == "My Routines" ? Color(red: 0.819, green: 0.302, blue: 0.408) : Color.white)
-                            
-                                .foregroundColor(selectedTab == "My Routines" ? Color.white : Color.black)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(red: 0.819, green: 0.302, blue: 0.408), lineWidth: selectedTab == "My Routines" ? 0 : 1)
-                                )
-                        }
-                        .cornerRadius(8)
+            if selectedTab == "Explore" {
+                // display hardcoded routines in the 'Explore' tab
+                ScrollView {
+                    ForEach(exploreRoutines) { routine in
+                        RoutineCardView(routine: routine, isSaved: savedRoutineNames.contains(routine.name), onSave: {
+                            saveRoutine(routine)
+                        })
                     }
-                    .padding(.horizontal)
-                    .opacity(scrollOffset > -100 ? 1 : 0)
                 }
-                .padding(.bottom, scrollOffset > -100 ? 20 : 0)
-                .background(Color.white)
-                .offset(y: scrollOffset > -100 ? 0 : -100)
-                .animation(.easeInOut(duration: 0.3), value: scrollOffset)
-                
-                
-                // Explore content
-                
-                if selectedTab == "Explore" {
-                    // hardcoded values for workout carousels
-                    VStack(alignment: .leading, spacing: 16) {
-                        
-                        // STRENGTH
-                        
-                        WorkoutCategoryView(category: "Strength Training", imagePrefix: "strength", workoutNames: [
-                            "Pull Day Routine", "Push Day Routine", "Intense Glute Workout"
-                        ], descriptions: [
-                            "Push the limits with pull day exercises.",
-                            "Push the limits with push day exercises.",
-                            "Train your glutes with this high intensity lower body workout."
-                        ], durations: [
-                            "90 mins", "90 mins", "90 mins"
-                        ])
-                        
-                        // FULLBODY
-                        WorkoutCategoryView(category: "Full Body Workouts", imagePrefix: "fullbody", workoutNames: [
-                            "7 Minute Daily Workout", "Fullbody Mat Routine", "Moderate Intensity Fullbody Workout"
-                        ], descriptions: [
-                            "7 mins a day keeps the doctor away.",
-                            "Grab your yoga mat and complete this low intensity full body workout.",
-                            "Moderate in intensity for a full body workout at home."
-                        ], durations: [
-                            "7 mins", "20 mins", "30 mins"
-                        ])
-                        
-                        //DUMBBELL
-                        WorkoutCategoryView(category: "DumbBell Only", imagePrefix: "dumbbell", workoutNames: [
-                            "Strength Dumbbell Workout", "Lower Body Workout", "Upper Body Workout"
-                        ], descriptions: [
-                            "Train your core strength with this dumb bell only workout. ",
-                            "Minimal equipment lower body workout.",
-                            "Minimal equipment upper body workout."
-                        ], durations: [
-                            "20 mins", "15 mins", "15 mins"
-                        ])
-                        
-                        // STRETCHING
-                        
-                        WorkoutCategoryView(category: "Stretching Routines", imagePrefix: "stretch", workoutNames: [
-                            "Everyday Stretch Routine", "Flexibility Stretch Routine", "Full Body Stretch Routine"
-                        ], descriptions: [
-                            "Low intensity, quick and perfect to incorporate into your everyday life.",
-                            "Perfect for those trying to increase their flexibility.",
-                            "Essential start for a great workout."
-                        ], durations: [
-                            "7 mins", "10 mins", "10 mins"
-                        ])
-                        
-                        // CARDIO
-                        WorkoutCategoryView(category: "Cardio", imagePrefix: "cardio", workoutNames: [
-                            "Skipping Warm Up Routine", "Outdoor Cardio Routine", "Easy Tredmil Workout"
-                        ], descriptions: [
-                            "Warm up before your workout with this skipping routine.",
-                            "Perfect for outdoors.",
-                            "Grab a friend and get your heart pumping with this tredmil routine."
-                        ], durations: [
-                            "10 mins", "30 mins", "20 mins"
-                        ])
-                    }
-                    .padding()
-                } else {
-                    // my routines content
-                    Text("My Routines, this will be added later.")
+                .padding()
+            } else {
+                // display saved routines in 'My Routines' tab
+                if savedRoutines.isEmpty {
+                    Text("You have no saved routines. Save a workout routine from our Explore page and it will appear here.")
                         .font(.headline)
                         .padding()
-                    
-                    Spacer()
-                }
-            }
-            .coordinateSpace(name: "scroll")
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                withAnimation {
-                    scrollOffset = value
-                }
-            }
-        }
-        .background(Color.white.edgesIgnoringSafeArea(.all))
-    }
-}
-
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-
-// initialising data for workout carousel views
-struct WorkoutCategoryView: View {
-    let category: String
-    let imagePrefix: String
-    let workoutNames: [String]
-    let descriptions: [String]
-    let durations: [String]
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(category)
-                .font(.headline)
-                .padding(.leading)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
-                    ForEach(0..<3) { index in
-                        VStack(alignment: .leading, spacing: 0) {
-                            Image("\(imagePrefix)\(index + 1)")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 250, height: 150)
-                                .clipped()
-                            
-                            Text(workoutNames[index])
-                                .font(.headline)
-                                .padding([.top, .leading, .trailing])
-                            
-                            HStack {
-                                Image(systemName: "clock")
-                                Text(durations[index])
-                                    .font(.subheadline)
-                            }
-                            .padding([.leading, .trailing, .bottom])
-                            
-                            Text(descriptions[index])
-                                .font(.subheadline)
-                                .lineLimit(2)
-                                .padding([.leading, .trailing, .bottom])
+                } else {
+                    ScrollView {
+                        ForEach(savedRoutines) { routine in
+                            SavedRoutineCardView(savedRoutine: routine)
                         }
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(8)
-                        .frame(width: 250)
                     }
+                    .padding()
                 }
             }
         }
-        .padding(.bottom)
+        .onAppear {
+            // update the saved routines list when the view appears
+            updateSavedRoutineNames()
+        }
+    }
+    
+    // function to save a routine
+    private func saveRoutine(_ routine: WorkoutRoutine) {
+        // to only save if the routine is not already saved
+        guard !savedRoutineNames.contains(routine.name) else { return }
+        
+        let newSavedRoutine = SavedRoutine(
+            name: routine.name,
+            imageName: routine.imageName,
+            time: routine.time,
+            workoutDescription: routine.description
+        )
+        modelContext.insert(newSavedRoutine)  // insert the saved routine into SwiftData
+        
+        savedRoutineNames.insert(routine.name)  // adding routine to the saved list
+    }
+    
+    // function to update the list of saved routine names from SwiftData
+    private func updateSavedRoutineNames() {
+        savedRoutineNames = Set(savedRoutines.map { $0.name })
     }
 }
 
-#Preview {
-    WorkoutView()
+// view for displaying a workout in 'Explore' tab
+struct RoutineCardView: View {
+    let routine: WorkoutRoutine
+    let isSaved: Bool  // check if the routine is saved
+    let onSave: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Image(routine.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 150)
+                .clipped()
+
+            Text(routine.name)
+                .font(.headline)
+
+            HStack {
+                Image(systemName: "clock")
+                Text(routine.time)
+            }
+
+            Text(routine.description)
+                .font(.subheadline)
+                .lineLimit(2)
+
+            Button(action: onSave) {
+                Text(isSaved ? "Saved" : "Save to My Routines")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // green default, gray for already saved
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .disabled(isSaved)  // disable save button if already saved
+
+            Divider()
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(8)
+    }
 }
+
+// view for displaying a saved workout in 'My Routines' tab
+struct SavedRoutineCardView: View {
+    let savedRoutine: SavedRoutine
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Image(savedRoutine.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 150)
+                .clipped()
+
+            Text(savedRoutine.name)
+                .font(.headline)
+
+            HStack {
+                Image(systemName: "clock")
+                Text(savedRoutine.time)
+            }
+
+            Text(savedRoutine.workoutDescription)
+                .font(.subheadline)
+                .lineLimit(2)
+
+            Divider()
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(8)
+    }
+}
+
+// helper model to use in the Explore tab, however doesn't need swiftData
+struct WorkoutRoutine: Identifiable {
+    let id = UUID()
+    let name: String
+    let imageName: String
+    let time: String
+    let description: String
+}
+
+
+

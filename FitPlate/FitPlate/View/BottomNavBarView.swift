@@ -40,7 +40,7 @@ struct BottomNavBarView: View {
                     Text("Profile")
                 }
         }
-        // tab icon highlight colour
+        // tab icon highlight color
         .accentColor(Color(red: 0.404, green: 0.773, blue: 0.702))
     }
 }

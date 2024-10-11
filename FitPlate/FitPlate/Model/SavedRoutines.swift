@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-class SavedRoutine {  
+class SavedRoutine {
     var name: String
     var imageName: String
     var time: String

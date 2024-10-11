@@ -20,7 +20,8 @@ struct FitPlateApp: App {
                 ContentView()  // show launch page initially
             }
         }
-        .modelContainer(for: User.self)  
+        .modelContainer(for: [User.self, SavedRoutine.self])
     }
 }
     
+
