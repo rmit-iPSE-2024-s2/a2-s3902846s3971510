@@ -7,13 +7,17 @@
 
 import SwiftUI
 import PhotosUI
-//hiii
+import SwiftData
+
 struct ProfileView: View {
     @State private var profileImage: Image? = nil  // var to hold profile image displayed
     @State private var selectedItem: PhotosPickerItem? = nil  // to hold selected image from PhotosPicker
-    @State private var username = "Username"  // hardcoded username for now
+    @Environment(\.modelContext) var modelContext  // access the SwiftData context for database operations
+    @Query var profiles: [Profile]  // Querying the profiles
 
     var body: some View {
+        let profile = profiles.first  // Assuming we deal with the first profile
+
         VStack(spacing: 20) {
             // My Profile header
             Text("My Profile")
@@ -38,8 +42,8 @@ struct ProfileView: View {
                         .padding(.leading, 20)
                 }
 
-                // username input
-                Text(username)
+                // username
+                Text(profile?.username ?? "Username")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.leading, 10)
@@ -50,7 +54,7 @@ struct ProfileView: View {
 
             // buttons for Edit Picture and Edit Profile
             HStack(spacing: 20) {
-                // change picture button using PhotosPicker
+                // Edit Picture button
                 PhotosPicker(selection: $selectedItem, matching: .images) {
                     Text("Edit Picture")
                         .font(.headline)
@@ -70,10 +74,8 @@ struct ProfileView: View {
                     }
                 }
 
-                // edit profile button
-                Button(action: {
-
-                }) {
+                // Edit Profile button
+                NavigationLink(destination: EditProfileView(profile: profile)) {
                     Text("Edit Profile")
                         .font(.headline)
                         .frame(minWidth: 120)
@@ -91,12 +93,16 @@ struct ProfileView: View {
                     .font(.headline)
                     .fontWeight(.bold)
 
-                // hardcoded goals for now, ***will be replaced with swiftdata values***
-                Text("Nutrition: Default")
-                Text("Goal: Lose Weight")
-                Text("Weight: 69kg")
-                Text("Calories: 2000")
-                Text("Step Goal: 10,000")
+                if let profile = profile {
+                    Text("Nutrition: \(profile.nutrition)")
+                    Text("Goal: \(profile.goal)")
+                    Text("Goal Weight: \(profile.goalWeight) kg")
+                    Text("Calories: \(profile.calories)")
+                    Text("Step Goal: \(profile.stepGoal)")
+                } else {
+                    Text("You have not selected your goals.")
+                        .foregroundColor(.gray)
+                }
             }
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -105,8 +111,4 @@ struct ProfileView: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    ProfileView()
 }

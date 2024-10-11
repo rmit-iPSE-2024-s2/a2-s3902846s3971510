@@ -15,7 +15,10 @@
 		F029C8A42C827B6B00514C45 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F029C8A32C827B6B00514C45 /* Preview Assets.xcassets */; };
 		F044E5DF2CB8FDD300282A15 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044E5DE2CB8FDD300282A15 /* SignupView.swift */; };
 		F044E5E12CB8FDDD00282A15 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044E5E02CB8FDDD00282A15 /* LoginView.swift */; };
-		F060D9032CB9CA6000B6C5FC /* SavedRoutines.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060D9022CB9CA6000B6C5FC /* SavedRoutines.swift */; };
+		F060D9032CB9CA6000B6C5FC /* SavedRoutinesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060D9022CB9CA6000B6C5FC /* SavedRoutinesModel.swift */; };
+		F060D9052CB9DC4F00B6C5FC /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060D9042CB9DC4F00B6C5FC /* ProfileModel.swift */; };
+		F060D9072CB9DCDF00B6C5FC /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060D9062CB9DCDF00B6C5FC /* EditProfileView.swift */; };
+		F060D9092CB9E4E100B6C5FC /* FitnessGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060D9082CB9E4E100B6C5FC /* FitnessGoalModel.swift */; };
 		F0DABF152C82818200F1C6B7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DABF142C82818200F1C6B7 /* HomeView.swift */; };
 		F0DABF172C8281AC00F1C6B7 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DABF162C8281AC00F1C6B7 /* RecipeView.swift */; };
 		F0DABF192C8281BF00F1C6B7 /* FitnessGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DABF182C8281BF00F1C6B7 /* FitnessGoalView.swift */; };
@@ -34,7 +37,10 @@
 		F029C8A32C827B6B00514C45 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F044E5DE2CB8FDD300282A15 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		F044E5E02CB8FDDD00282A15 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		F060D9022CB9CA6000B6C5FC /* SavedRoutines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoutines.swift; sourceTree = "<group>"; };
+		F060D9022CB9CA6000B6C5FC /* SavedRoutinesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoutinesModel.swift; sourceTree = "<group>"; };
+		F060D9042CB9DC4F00B6C5FC /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		F060D9062CB9DCDF00B6C5FC /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		F060D9082CB9E4E100B6C5FC /* FitnessGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessGoalModel.swift; sourceTree = "<group>"; };
 		F0DABF142C82818200F1C6B7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F0DABF162C8281AC00F1C6B7 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		F0DABF182C8281BF00F1C6B7 /* FitnessGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessGoalView.swift; sourceTree = "<group>"; };
@@ -103,6 +109,7 @@
 				3F7E482E2CB9655100AEEE99 /* UserListView.swift */,
 				F0DABF142C82818200F1C6B7 /* HomeView.swift */,
 				F029C89E2C827B6900514C45 /* ContentView.swift */,
+				F060D9062CB9DCDF00B6C5FC /* EditProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -111,7 +118,9 @@
 			isa = PBXGroup;
 			children = (
 				3F7E482C2CB9650C00AEEE99 /* UserModel.swift */,
-				F060D9022CB9CA6000B6C5FC /* SavedRoutines.swift */,
+				F060D9022CB9CA6000B6C5FC /* SavedRoutinesModel.swift */,
+				F060D9042CB9DC4F00B6C5FC /* ProfileModel.swift */,
+				F060D9082CB9E4E100B6C5FC /* FitnessGoalModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,7 +195,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F060D9032CB9CA6000B6C5FC /* SavedRoutines.swift in Sources */,
+				F060D9072CB9DCDF00B6C5FC /* EditProfileView.swift in Sources */,
+				F060D9092CB9E4E100B6C5FC /* FitnessGoalModel.swift in Sources */,
+				F060D9032CB9CA6000B6C5FC /* SavedRoutinesModel.swift in Sources */,
+				F060D9052CB9DC4F00B6C5FC /* ProfileModel.swift in Sources */,
 				F044E5DF2CB8FDD300282A15 /* SignupView.swift in Sources */,
 				F0DABF152C82818200F1C6B7 /* HomeView.swift in Sources */,
 				F0DABF192C8281BF00F1C6B7 /* FitnessGoalView.swift in Sources */,
