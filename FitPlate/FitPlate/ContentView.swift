@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// custom layout
 
 struct AnimatedTextView: View {
     @State private var isVisible = false
@@ -37,20 +36,20 @@ struct AnimatedTextView: View {
 
 
 struct ContentView: View {
-    @Binding var hasStarted: Bool
+    @State private var navigateToSignup = false  // Track navigation to SignupView
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 AnimatedTextView()
-                
+
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 300, height: 300)
-                
+
                 Button(action: {
-                    hasStarted = true  // set hasStarted to True which will show navbar from FitPlateApp
+                    navigateToSignup = true
                 }) {
                     Text("Get Started")
                         .padding()
@@ -60,8 +59,14 @@ struct ContentView: View {
                         .cornerRadius(8)
                 }
                 .padding()
+                .navigationDestination(isPresented: $navigateToSignup) {
+                    SignupView()  // nav to signup view
+                }
             }
         }
     }
 }
 
+#Preview {
+    ContentView()
+}
