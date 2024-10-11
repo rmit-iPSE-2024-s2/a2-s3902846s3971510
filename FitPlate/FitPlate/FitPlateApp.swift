@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct FitPlateApp: App {
@@ -18,6 +19,11 @@ struct FitPlateApp: App {
             } else {
                 ContentView()  // show launch page initially
             }
+            
         }
+        .modelContainer(for: User.self)
     }
 }
+
+
+
