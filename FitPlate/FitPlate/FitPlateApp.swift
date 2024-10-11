@@ -19,11 +19,8 @@ struct FitPlateApp: App {
             } else {
                 ContentView()  // show launch page initially
             }
-            
         }
-        .modelContainer(for: User.self)
+        .modelContainer(for: User.self)  
     }
 }
-
-
-
+    

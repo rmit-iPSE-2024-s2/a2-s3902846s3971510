@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct AnimatedTextView: View {
     @State private var isVisible = false
     
@@ -16,13 +15,12 @@ struct AnimatedTextView: View {
             Text("Fit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396)) //orange
+                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396)) // orange
 
             Text("Plate")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702)) // green
-
                 .opacity(isVisible ? 1 : 0)
                 .scaleEffect(isVisible ? 1 : 0.5)
                 .onAppear {
@@ -34,10 +32,7 @@ struct AnimatedTextView: View {
     }
 }
 
-
 struct ContentView: View {
-    @State private var navigateToSignup = false  // Track navigation to SignupView
-
     var body: some View {
         NavigationStack {
             VStack {
@@ -48,9 +43,7 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 300, height: 300)
 
-                Button(action: {
-                    navigateToSignup = true
-                }) {
+                NavigationLink(destination: SignupView()) {
                     Text("Get Started")
                         .padding()
                         .frame(minWidth: 200)
@@ -59,10 +52,8 @@ struct ContentView: View {
                         .cornerRadius(8)
                 }
                 .padding()
-                .navigationDestination(isPresented: $navigateToSignup) {
-                    SignupView()  // nav to signup view
-                }
             }
+            .navigationTitle("") 
         }
     }
 }
@@ -70,4 +61,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
