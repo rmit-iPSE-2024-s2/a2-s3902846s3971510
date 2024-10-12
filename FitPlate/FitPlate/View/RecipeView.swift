@@ -1,25 +1,28 @@
-//
-//  RecipeView.swift
-//  FitPlate
-//
-//  Created by margaret on 31/8/2024.
-//
-
 import SwiftUI
 
 struct RecipeView: View {
-    // hard coded for the dropdown menus
-    let dietTypes = ["Any", "Keto", "Paleo", "Vegan", "Vegetarian"]
-    let cuisineTypes = ["Any", "Italian", "Mexican", "Indian", "Chinese", "Mediterranean"]
-    let preparationTimes = ["Any", "< 15 mins", "15-30 mins", "30-45 mins", "> 45 mins"]
-    let calorieRanges = ["<200", "<300", "<400", ">500"]
-    
-    // state variables for drop down data
+    struct CategoriesResponse: Codable {
+        let categories: [Category]
+    }
+
+    struct Category: Codable {
+        let strCategory: String
+    }
+
+    struct CuisinesResponse: Codable {
+        let meals: [Cuisine]
+    }
+
+    struct Cuisine: Codable {
+        let strArea: String
+    }
+    // Start with the default values and add to them
+    @State private var categoryTypes: [String] = ["Any"]
+    @State private var cuisineTypes: [String] = ["Any"]
     @State private var selectedDietType = "Select"
     @State private var selectedCuisineType = "Select"
-    @State private var selectedPreparationTime = "Select"
-    @State private var selectedCalorieRange = "Select"
-    
+    @State private var navigateToFiltered = false
+
     var body: some View {
         VStack {
             Text("Recipes")
@@ -27,132 +30,105 @@ struct RecipeView: View {
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))
                 .padding()
-            
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))
-                Text("Recipe Search")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-            }
-            .padding(.bottom, 16)
 
-            // Drop downs for recipe generation
+            // Dynamic drop-downs for recipe generation
             VStack(alignment: .leading, spacing: 16) {
-                // Diet type
-                VStack(alignment: .leading) {
-                    Text("Diet Type")
-                        .font(.headline)
-                    Menu {
-                        ForEach(dietTypes, id: \.self) { diet in
-                            Button(action: { selectedDietType = diet }) {
-                                Text(diet)
-                            }
-                        }
-                    } label: {
-                        Text(selectedDietType)
-                            .foregroundColor(selectedDietType == "Select" ? Color(red: 0.404, green: 0.773, blue: 0.702) : .black)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                    }
-                }
-
-                // Cuisine type
-                VStack(alignment: .leading) {
-                    Text("Cuisine Type")
-                        .font(.headline)
-                    Menu {
-                        ForEach(cuisineTypes, id: \.self) { cuisine in
-                            Button(action: { selectedCuisineType = cuisine }) {
-                                Text(cuisine)
-                            }
-                        }
-                    } label: {
-                        Text(selectedCuisineType)
-                            .foregroundColor(selectedCuisineType == "Select" ? Color(red: 0.404, green: 0.773, blue: 0.702) : .black)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                    }
-                }
-
-                // prep time
-                VStack(alignment: .leading) {
-                    Text("Preparation Time")
-                        .font(.headline)
-                    Menu {
-                        ForEach(preparationTimes, id: \.self) { time in
-                            Button(action: { selectedPreparationTime = time }) {
-                                Text(time)
-                            }
-                        }
-                    } label: {
-                        Text(selectedPreparationTime)
-                            .foregroundColor(selectedPreparationTime == "Select" ? Color(red: 0.404, green: 0.773, blue: 0.702) : .black)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                    }
-                }
-
-                // Calorie range
-                VStack(alignment: .leading) {
-                    Text("Calories")
-                        .font(.headline)
-                    Menu {
-                        ForEach(calorieRanges, id: \.self) { range in
-                            Button(action: { selectedCalorieRange = range }) {
-                                Text(range)
-                            }
-                        }
-                    } label: {
-                        Text(selectedCalorieRange)
-                            .foregroundColor(selectedCalorieRange == "Select" ? Color(red: 0.404, green: 0.773, blue: 0.702) : .black)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                    }
-                }
+                menuDropdown(title: "Diet Type", items: categoryTypes, selectedItem: $selectedDietType)
+                menuDropdown(title: "Cuisine Type", items: cuisineTypes, selectedItem: $selectedCuisineType)
             }
             .padding()
 
-            // generate button
-            Button(action: {
-            }) {
-                Text("Generate")
-                    .fontWeight(.bold)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color(red: 1.0, green: 0.569, blue: 0.396))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            // Generate button
+            Button("Generate") {
+                navigateToFiltered = true  // This will trigger navigation
             }
-            .padding(.horizontal)
-
+            .buttonStyle(PrimaryButtonStyle())
+            .padding(.horizontal, 40)
+            .navigationDestination(isPresented: $navigateToFiltered, destination: {
+                FilteredRecipesView(selectedCategory: selectedDietType, selectedCuisine: selectedCuisineType)
+            })
             Spacer()
         }
-        .padding()
-        .background(Color.white.edgesIgnoringSafeArea(.all))
+        .onAppear {
+            fetchCategoryTypes()
+            fetchCuisineTypes()
+        }
+    }
+
+    private func fetchCategoryTypes() {
+        let urlString = "https://www.themealdb.com/api/json/v1/1/categories.php"
+        guard let url = URL(string: urlString) else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let data = data {
+                if let decodedResponse = try? JSONDecoder().decode(CategoriesResponse.self, from: data) {
+                    DispatchQueue.main.async {
+                        self.categoryTypes += decodedResponse.categories.map { $0.strCategory }
+                    }
+                }
+            } else {
+                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }.resume()
+    }
+
+    private func fetchCuisineTypes() {
+        let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
+        guard let url = URL(string: urlString) else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let data = data {
+                if let decodedResponse = try? JSONDecoder().decode(CuisinesResponse.self, from: data) {
+                    DispatchQueue.main.async {
+                        self.cuisineTypes += decodedResponse.meals.map { $0.strArea }
+                    }
+                }
+            } else {
+                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }.resume()
+    }
+
+    @ViewBuilder
+    private func menuDropdown(title: String, items: [String], selectedItem: Binding<String>) -> some View {
+        VStack(alignment: .leading) {
+            Text(title).font(.headline)
+            Menu {
+                ForEach(items, id: \.self) { item in
+                    Button(item) {
+                        selectedItem.wrappedValue = item
+                    }
+                }
+            } label: {
+                HStack {
+                    Text(selectedItem.wrappedValue)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                }
+                .padding()
+                .background(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+            }
+        }
     }
 }
 
-#Preview {
-    RecipeView()
+struct PrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .foregroundColor(.white)
+            .padding()
+            .background(Color(red: 0.404, green: 0.773, blue: 0.702))
+            .cornerRadius(8)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+    }
+}
+
+struct RecipeView_Previews: PreviewProvider {
+    static var previews: some View {
+        RecipeView()
+    }
 }
