@@ -28,8 +28,27 @@
 		F0DABF272C82DFBA00F1C6B7 /* BottomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DABF262C82DFBA00F1C6B7 /* BottomNavBarView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3F653EE42CBA4A19009E0325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F029C8912C827B6900514C45 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F029C8982C827B6900514C45;
+			remoteInfo = FitPlate;
+		};
+		3F653EF92CBAAC2B009E0325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F029C8912C827B6900514C45 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F029C8982C827B6900514C45;
+			remoteInfo = FitPlate;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3F653EDA2CBA1712009E0325 /* FilteredRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredRecipesView.swift; sourceTree = "<group>"; };
+		3F653EE02CBA4A19009E0325 /* SignupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F653EF52CBAAC2B009E0325 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F7E482C2CB9650C00AEEE99 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		3F7E482E2CB9655100AEEE99 /* UserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		F029C8992C827B6900514C45 /* FitPlate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitPlate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +71,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F653EDD2CBA4A19009E0325 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F653EF22CBAAC2B009E0325 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F029C8962C827B6900514C45 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,6 +107,8 @@
 			isa = PBXGroup;
 			children = (
 				F029C8992C827B6900514C45 /* FitPlate.app */,
+				3F653EE02CBA4A19009E0325 /* SignupTests.xctest */,
+				3F653EF52CBAAC2B009E0325 /* UnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,6 +166,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F653EDF2CBA4A19009E0325 /* SignupTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F653EE62CBA4A19009E0325 /* Build configuration list for PBXNativeTarget "SignupTests" */;
+			buildPhases = (
+				3F653EDC2CBA4A19009E0325 /* Sources */,
+				3F653EDD2CBA4A19009E0325 /* Frameworks */,
+				3F653EDE2CBA4A19009E0325 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F653EE52CBA4A19009E0325 /* PBXTargetDependency */,
+			);
+			name = SignupTests;
+			productName = SignupTests;
+			productReference = 3F653EE02CBA4A19009E0325 /* SignupTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3F653EF42CBAAC2B009E0325 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F653EFB2CBAAC2B009E0325 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				3F653EF12CBAAC2B009E0325 /* Sources */,
+				3F653EF22CBAAC2B009E0325 /* Frameworks */,
+				3F653EF32CBAAC2B009E0325 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F653EFA2CBAAC2B009E0325 /* PBXTargetDependency */,
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = 3F653EF52CBAAC2B009E0325 /* UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F029C8982C827B6900514C45 /* FitPlate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F029C8A72C827B6B00514C45 /* Build configuration list for PBXNativeTarget "FitPlate" */;
@@ -158,6 +229,14 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					3F653EDF2CBA4A19009E0325 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F029C8982C827B6900514C45;
+					};
+					3F653EF42CBAAC2B009E0325 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F029C8982C827B6900514C45;
+					};
 					F029C8982C827B6900514C45 = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -177,11 +256,27 @@
 			projectRoot = "";
 			targets = (
 				F029C8982C827B6900514C45 /* FitPlate */,
+				3F653EDF2CBA4A19009E0325 /* SignupTests */,
+				3F653EF42CBAAC2B009E0325 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F653EDE2CBA4A19009E0325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F653EF32CBAAC2B009E0325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F029C8972C827B6900514C45 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -194,6 +289,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F653EDC2CBA4A19009E0325 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F653EF12CBAAC2B009E0325 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F029C8952C827B6900514C45 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,7 +329,88 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3F653EE52CBA4A19009E0325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F029C8982C827B6900514C45 /* FitPlate */;
+			targetProxy = 3F653EE42CBA4A19009E0325 /* PBXContainerItemProxy */;
+		};
+		3F653EFA2CBAAC2B009E0325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F029C8982C827B6900514C45 /* FitPlate */;
+			targetProxy = 3F653EF92CBAAC2B009E0325 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		3F653EE72CBA4A19009E0325 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.SignupTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Debug;
+		};
+		3F653EE82CBA4A19009E0325 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.SignupTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Release;
+		};
+		3F653EFC2CBAAC2B009E0325 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.UnitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Debug;
+		};
+		3F653EFD2CBAAC2B009E0325 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.UnitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Release;
+		};
 		F029C8A52C827B6B00514C45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,6 +589,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F653EE62CBA4A19009E0325 /* Build configuration list for PBXNativeTarget "SignupTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F653EE72CBA4A19009E0325 /* Debug */,
+				3F653EE82CBA4A19009E0325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F653EFB2CBAAC2B009E0325 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F653EFC2CBAAC2B009E0325 /* Debug */,
+				3F653EFD2CBAAC2B009E0325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F029C8942C827B6900514C45 /* Build configuration list for PBXProject "FitPlate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

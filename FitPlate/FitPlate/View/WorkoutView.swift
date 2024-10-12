@@ -16,7 +16,8 @@ struct WorkoutView: View {
                        imageName: "strength1",
                        time: "90 mins",
                        description: "Push the limits with pull day exercises."),
-        WorkoutRoutine(name: "Push Day Routine", 
+       
+        WorkoutRoutine(name: "Push Day Routine",
                        imageName: "strength2",
                        time: "90 mins",
                        description: "Push the limits with push day exercises."),
@@ -154,45 +155,124 @@ struct WorkoutView: View {
 
 // view for displaying a workout in 'Explore' tab
 struct RoutineCardView: View {
-    let routine: WorkoutRoutine
-    let isSaved: Bool  // check if the routine is saved
-    let onSave: () -> Void
+//    let routine: WorkoutRoutine
+//    let isSaved: Bool  // check if the routine is saved
+//    let onSave: () -> Void
+//
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 16) {
+//            Image(routine.imageName)
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//                .frame(height: 150)
+//                .clipped()
+//
+//            Text(routine.name)
+//                .font(.headline)
+//
+//            HStack {
+//                Image(systemName: "clock")
+//                Text(routine.time)
+//            }
+//
+//            Text(routine.description)
+//                .font(.subheadline)
+//                .lineLimit(2)
+//
+//            Button(action: onSave) {
+//                Text(isSaved ? "Saved" : "Save to My Routines")
+//                    .padding()
+//                    .frame(maxWidth: .infinity)
+//                    .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // green default, gray for already saved
+//                    .foregroundColor(.white)
+//                    .cornerRadius(8)
+//            }
+//            .disabled(isSaved)  // disable save button if already saved
+//
+//            Divider()
+//        }
+//        .padding()
+//        .background(Color.gray.opacity(0.1))
+//        .cornerRadius(8)
+//    }
+        let routine: WorkoutRoutine
+        let isSaved: Bool  // check if the routine is saved
+        let onSave: () -> Void
+        @State private var showDetails = false  // State for modal visibility
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 16) {
+                Image(routine.imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 150)
+                    .clipped()
+                    .onTapGesture(count: 2) {
+                        self.showDetails = true  // Toggle the state to show the modal on double tap
+                    }
+                    .sheet(isPresented: $showDetails) {
+                        WorkoutDetailModal(routine: routine)  // Modal view with more details
+                    }
+
+                Text(routine.name)
+                    .font(.headline)
+
+                HStack {
+                    Image(systemName: "clock")
+                    Text(routine.time)
+                }
+
+                Text(routine.description)
+                    .font(.subheadline)
+                    .lineLimit(2)
+
+                Button(action: onSave) {
+                    Text(isSaved ? "Saved" : "Save to My Routines")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // Green default, gray for already saved
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .disabled(isSaved)  // Disable save button if already saved
+
+                Divider()
+            }
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(8)
+        }
+}
+
+struct WorkoutDetailModal: View {
+    var routine: WorkoutRoutine
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack {
             Image(routine.imageName)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 150)
-                .clipped()
-
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 300, maxHeight: 300)
+            
             Text(routine.name)
+                .font(.title)
+                .padding()
+            
+            Text(routine.time)
                 .font(.headline)
-
-            HStack {
-                Image(systemName: "clock")
-                Text(routine.time)
+                .padding([.leading, .trailing, .bottom])
+            
+            Text(routine.detailedDescription)
+                .padding()
+                .multilineTextAlignment(.center)
+            
+            Button("Close") {
+                // Intentionally left blank for UI structure; handle closing in practice
             }
-
-            Text(routine.description)
-                .font(.subheadline)
-                .lineLimit(2)
-
-            Button(action: onSave) {
-                Text(isSaved ? "Saved" : "Save to My Routines")
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // green default, gray for already saved
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
-            .disabled(isSaved)  // disable save button if already saved
-
-            Divider()
         }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -235,7 +315,18 @@ struct WorkoutRoutine: Identifiable {
     let imageName: String
     let time: String
     let description: String
+    let detailedDescription: String  // Additional property for the modal
+
+        init(name: String, imageName: String, time: String, description: String, detailedDescription: String = "") {
+            self.name = name
+            self.imageName = imageName
+            self.time = time
+            self.description = description
+            self.detailedDescription = detailedDescription  // Default empty if not provided
+        }
+    
 }
+
 
 
 

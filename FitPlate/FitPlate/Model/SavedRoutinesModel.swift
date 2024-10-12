@@ -14,4 +14,6 @@ class SavedRoutine {
         self.time = time
         self.workoutDescription = workoutDescription
     }
+    
+    
 }
