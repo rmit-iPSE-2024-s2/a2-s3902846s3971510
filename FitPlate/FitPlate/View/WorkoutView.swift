@@ -11,12 +11,57 @@ struct WorkoutView: View {
 
     // hardcoded routines - didn't choose to use integrate swiftdata with these values as these would be constant.
     let exploreRoutines = [
-        WorkoutRoutine(name: "Pull Day Routine", imageName: "strength1", time: "90 mins", description: "Push the limits with pull day exercises."),
-        WorkoutRoutine(name: "Push Day Routine", imageName: "strength2", time: "90 mins", description: "Push the limits with push day exercises."),
-        WorkoutRoutine(name: "Intense Glute Workout", imageName: "strength3", time: "90 mins", description: "Train your glutes with this high intensity lower body workout."),
-        WorkoutRoutine(name: "7 Minute Daily Workout", imageName: "fullbody1", time: "7 mins", description: "7 mins a day keeps the doctor away."),
-        WorkoutRoutine(name: "Fullbody Mat Routine", imageName: "fullbody2", time: "20 mins", description: "Grab your yoga mat and complete this low intensity full body workout.")
+        // STRENGTH
+        WorkoutRoutine(name: "Pull Day Routine", 
+                       imageName: "strength1",
+                       time: "90 mins",
+                       description: "Push the limits with pull day exercises."),
+        WorkoutRoutine(name: "Push Day Routine", 
+                       imageName: "strength2",
+                       time: "90 mins",
+                       description: "Push the limits with push day exercises."),
+        
+        // FULL BODY
+        WorkoutRoutine(name: "7 Minute Daily Workout", 
+                       imageName: "fullbody1", 
+                       time: "7 mins",
+                       description: "7 mins a day keeps the doctor away."),
+        WorkoutRoutine(name: "Fullbody Mat Routine", 
+                       imageName: "fullbody2",
+                       time: "20 mins",
+                       description: "Grab your yoga mat and complete this low intensity full body workout."),
+
+        // DUMBBELL
+        WorkoutRoutine(name: "Strength Dumbbell Workout", 
+                       imageName: "dumbbell1",
+                       time: "20 mins",
+                       description: "Train your core strength with this dumbbell-only workout."),
+        WorkoutRoutine(name: "Lower Body Workout", 
+                       imageName: "dumbbell2",
+                       time: "15 mins",
+                       description: "Minimal equipment lower body workout."),
+
+        // STRETCHING
+        WorkoutRoutine(name: "Everyday Stretch Routine", 
+                       imageName: "stretch1", 
+                       time: "7 mins",
+                       description: "Low intensity, quick, and perfect to incorporate into your everyday life."),
+        WorkoutRoutine(name: "Flexibility Stretch Routine", 
+                       imageName: "stretch2",
+                       time: "10 mins",
+                       description: "Perfect for those trying to increase their flexibility."),
+    
+        // CARDIO
+        WorkoutRoutine(name: "Skipping Warm Up Routine", 
+                       imageName: "cardio1",
+                       time: "10 mins",
+                       description: "Warm up before your workout with this skipping routine."),
+        WorkoutRoutine(name: "Outdoor Cardio Routine", 
+                       imageName: "cardio2",
+                       time: "30 mins",
+                       description: "Perfect for outdoors."),
     ]
+
     
     var body: some View {
         VStack {

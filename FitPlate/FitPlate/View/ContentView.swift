@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct AnimatedTextView: View {
+struct AnimatedTextView: View { // animated view to show FitPlate Logo and Text
     @State private var isVisible = false
+    
     
     var body: some View {
         HStack(spacing: 0) {
