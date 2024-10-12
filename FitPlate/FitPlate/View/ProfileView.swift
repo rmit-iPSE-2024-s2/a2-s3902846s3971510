@@ -12,11 +12,11 @@ import SwiftData
 struct ProfileView: View {
     @State private var profileImage: Image? = nil  // var to hold profile image displayed
     @State private var selectedItem: PhotosPickerItem? = nil  // to hold selected image from PhotosPicker
-    @Environment(\.modelContext) var modelContext  // access the SwiftData context for database operations
-    @Query var profiles: [Profile]  // Querying the profiles
+    @Environment(\.modelContext) var modelContext  // access to swiftData model
+    @Query var profiles: [Profile]  // query profile
 
     var body: some View {
-        let profile = profiles.first  // Assuming we deal with the first profile
+        let profile = profiles.first
 
         VStack(spacing: 20) {
             // My Profile header

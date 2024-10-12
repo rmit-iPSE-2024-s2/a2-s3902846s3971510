@@ -2,8 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct EditProfileView: View {
-    @Environment(\.modelContext) var modelContext  // Access SwiftData context
-    @Environment(\.dismiss) var dismiss  // To close the view after saving
+    @Environment(\.modelContext) var modelContext  // cccess SwiftData context
+    @Environment(\.dismiss) var dismiss  // to close edit profile view after saving
     var profile: Profile?
 
     @State private var username: String = ""
@@ -13,7 +13,7 @@ struct EditProfileView: View {
     @State private var calories: Int = 2000
     @State private var stepGoal: Int = 10000
 
-    @State private var showingAlert = false  // State to trigger the success alert
+    @State private var showingAlert = false  // state to trigger alert for successful update
 
     let nutritionOptions = ["Default", "Low Fat High Carb", "Low Fat High Protein", "High Protein High Fat"]
     let goalOptions = ["Lose weight", "Gain weight", "Maintain weight"]
@@ -57,7 +57,7 @@ struct EditProfileView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green color
+                    .background(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
@@ -66,13 +66,13 @@ struct EditProfileView: View {
                     title: Text("Success"),
                     message: Text("Profile Updated Successfully!"),
                     dismissButton: .default(Text("OK")) {
-                        dismiss()  // Close the form after showing the alert
+                        dismiss()  // closing edit profile form once update successful
                     }
                 )
             }
         }
         .onAppear {
-            // Load the existing profile data into the form when the view appears
+            // load the existing profile data into the form when the view appears
             if let profile = profile {
                 username = profile.username
                 nutrition = profile.nutrition
@@ -85,7 +85,7 @@ struct EditProfileView: View {
     }
 
     private func saveProfile() {
-        // Check if there's an existing profile, update it, otherwise create a new one
+        // check if there's an existing profile, update it, otherwise create a new one
         if let profile = profile {
             // Update the existing profile with new values
             profile.username = username
