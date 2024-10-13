@@ -1,38 +1,56 @@
 import SwiftUI
 import SwiftData
 
+/**
+ The `LoginView` provides a user interface for existing users to log in with their email and password.
+ 
+ The view validates the entered credentials by checking them against saved user data. If the credentials are correct, the user is navigated to the HomeView
+ */
+
 struct LoginView: View {
+
+    /// Login validation input data
     @State private var email = ""
     @State private var password = ""
-    @State private var loggedIn = false  // to track if login is successful
+    
+    /// Tracks whether the user has successfully logged in, used for triggering navigation.
+    @State private var loggedIn = false
+    
+    /// Tracks whether an error message should be shown.
     @State private var showError = false
+    
+    /// The error message to display when validation fails or login is unsuccessful.
     @State private var errorMessage = ""
-    @Environment(\.modelContext) var modelContext  // Access model context for querying users
-    // Use @Query to fetch all User entities
+    
+    /// Provides access to the SwiftData model context for managing users.
+    @Environment(\.modelContext) var modelContext
+    
+    /// Fetches all `User` entities from the model, sorted by email.
     @Query(sort: [SortDescriptor(\User.email)]) private var users: [User]
 
     var body: some View {
         VStack(spacing: 20) {
+            // Login title
             Text("Login")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            // Email TextField
+            // Email input field
             TextField("Email", text: $email)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
                 .keyboardType(.emailAddress)
 
-            // Password SecureField
+            // Password input field
             SecureField("Password", text: $password)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
 
-            // Login Button
+            // Login button
             Button(action: {
-                loginUser()
+                loginUser()  // Attempt to log in the user
             }) {
                 Text("Login")
                     .font(.headline)
@@ -43,13 +61,14 @@ struct LoginView: View {
                     .cornerRadius(8)
             }
             .padding(.horizontal, 40)
+            // Navigation to main app view after successful login
             .navigationDestination(isPresented: $loggedIn) {
-                BottomNavBarView()  // Navigate to the main app view on successful login
+                BottomNavBarView()
             }
 
             Spacer()
 
-            // Error message text
+            // Display error message if there is a login issue
             if showError {
                 Text(errorMessage)
                     .foregroundColor(.red)
@@ -59,29 +78,37 @@ struct LoginView: View {
         .padding()
     }
 
-    // Function to log in the user
+    /**
+     Attempts to log in the user by validating the entered email and password in the relevant input fields.
+     If the credentials match an existing user, the user is logged in, and the main app view is presented.
+     
+     If the email or password fields are empty, an error message is displayed.
+     An error message is shown for invalid credentials.
+     */
+    
+    
     private func loginUser() {
-            guard !email.isEmpty, !password.isEmpty else {
-                errorMessage = "Email or password cannot be empty."
-                showError = true
-                return
-            }
-
-            // Check if a user exists with the entered email and password
-        if users.first(where: { $0.email == email && $0.password == password }) != nil {
-                // Credentials match: proceed with login
-                loggedIn = true
-                showError = false
-            } else {
-                // No match found: show error
-                errorMessage = "Invalid email or password."
-                showError = true
-            }
+        // Validate that email and password are not empty
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = "Email or password cannot be empty."  // Set error message for empty fields
+            showError = true  // Show error message
+            return
         }
+
+        // Check if the entered credentials match any existing user
+        if users.first(where: { $0.email == email && $0.password == password }) != nil {
+            // Credentials are valid: proceed with login
+            loggedIn = true
+            showError = false
+        } else {
+            // Credentials do not match: show error
+            errorMessage = "Invalid email or password."  // Set error message for invalid credentials
+            showError = true  // Show error message
+        }
+    }
 }
 
 #Preview {
     LoginView()
         .modelContainer(for: User.self)
 }
-

@@ -9,26 +9,39 @@ import SwiftUI
 import SwiftData
 import UIKit
 
+/**
+ The `ProfileView` displays the user's profile, including the profile picture, username, and fitness goals.
+ */
 struct ProfileView: View {
-    @State private var profileImage: Image? = nil  // var to hold profile image displayed
-    @State private var showImagePicker = false  // to toggle UIKit image picker
-    @State private var inputImage: UIImage? = nil  // to hold selected image from UIKit image picker
-    @Environment(\.modelContext) var modelContext  // access to swiftData model
-    @Query var profiles: [Profile]  // query profile
+    
+    /// A SwiftUI `Image` representing the user's profile picture. If nil, a default placeholder image is shown.
+    @State private var profileImage: Image? = nil
+    
+    /// A boolean that toggles the display of the UIKit-based image picker when set to true.
+    @State private var showImagePicker = false
+    
+    /// A `UIImage` that holds the image selected by the user from the UIKit image picker.
+    @State private var inputImage: UIImage? = nil
+    
+    /// Provides access to the SwiftData model context for saving or fetching data.
+    @Environment(\.modelContext) var modelContext
+
+    @Query var profiles: [Profile]
 
     var body: some View {
+        /// Fetch the first profile from the query results.
         let profile = profiles.first
 
         VStack(spacing: 20) {
-            // My Profile header
+            // Header displaying "My Profile"
             Text("My Profile")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))  // green
+                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))  // green color
                 .padding(.leading, 20)
 
             HStack {
-                // Profile picture
+                // Display the profile picture if available, or a default placeholder if not.
                 if let profileImage = profileImage {
                     profileImage
                         .resizable()
@@ -43,7 +56,7 @@ struct ProfileView: View {
                         .padding(.leading, 20)
                 }
 
-                // username
+                // Display the username, or "Username" if no profile is found.
                 Text(profile?.username ?? "Username")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -53,9 +66,9 @@ struct ProfileView: View {
             }
             .padding(.top, 30)
 
-            // buttons for Edit Picture and Edit Profile
+            // Buttons to edit profile picture or edit profile details.
             HStack(spacing: 20) {
-                // UIKit-based Image Picker button
+                // Button to show the UIKit-based image picker.
                 Button(action: {
                     showImagePicker = true  // Show the UIKit Image Picker
                 }) {
@@ -63,32 +76,32 @@ struct ProfileView: View {
                         .font(.headline)
                         .frame(minWidth: 120)
                         .padding()
-                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // pink
+                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // pink color
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
                 .sheet(isPresented: $showImagePicker) {
-                    // Present the UIKit Image Picker
+                    /// Present the UIKit Image Picker
                     ImagePicker(selectedImage: $inputImage)
                 }
                 .onChange(of: inputImage) {
-                    loadImage()  // Load the image when it's selected
+                    loadImage()  /// Load the image when it's selected
                 }
 
-                // Edit Profile button
+                /// Navigation link to the Edit Profile view.
                 NavigationLink(destination: EditProfileView(profile: profile)) {
                     Text("Edit Profile")
                         .font(.headline)
                         .frame(minWidth: 120)
                         .padding()
-                        .background(Color(red: 1.0, green: 0.569, blue: 0.396))  // orange
+                        .background(Color(red: 1.0, green: 0.569, blue: 0.396))  // orange color
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
             }
             .padding(.horizontal, 60)
 
-            // My Goals section
+            /// Display user's fitness goals or a placeholder message if no goals are set.
             VStack(alignment: .leading, spacing: 10) {
                 Text("My Goals")
                     .font(.headline)
@@ -107,12 +120,18 @@ struct ProfileView: View {
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer()
+            Spacer()  /// Pushes content to the top of the view.
         }
-        .padding()
+        .padding()  /// Adds padding around the VStack.
     }
 
-    // Function to convert UIImage to SwiftUI Image and assign to profileImage
+    /**
+     Converts the selected `UIImage` from the UIKit image picker into a SwiftUI `Image` and assigns it to `profileImage`.
+     
+     This function is triggered whenever the `inputImage` changes.
+     */
+    
+    
     private func loadImage() {
         guard let inputImage = inputImage else { return }
         profileImage = Image(uiImage: inputImage)

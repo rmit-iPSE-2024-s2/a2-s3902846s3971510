@@ -1,69 +1,69 @@
 import SwiftUI
 import SwiftData
 
+/**
+ The `WorkoutView` provides an interface for users to explore and save workout routines.
+ It has two tabs: "Explore" for browsing predefined workout routines, and "My Routines" for viewing user-saved routines. The view integrates with SwiftData to manage saved routines.
+ */
 struct WorkoutView: View {
-    @State private var selectedTab = "Explore"  // tab switcher
-    @State private var savedRoutineNames: Set<String> = []  // Track saved routines by name
     
-    // to fetch saved workout routines using swift data
+    /// Tracks the selected tab: "Explore" or "My Routines".
+    @State private var selectedTab = "Explore"
+    
+    /// A set of saved routine names, used to track which routines have been saved by the user.
+    @State private var savedRoutineNames: Set<String> = []
+    
+    /// A query to fetch saved workout routines using SwiftData, sorted by the name.
     @Query(sort: \SavedRoutine.name, order: .forward) var savedRoutines: [SavedRoutine]
-    @Environment(\.modelContext) var modelContext  // Access SwiftData context for saving new routines
+    
+    /// Provides access to the SwiftData context for saving new routines.
+    @Environment(\.modelContext) var modelContext
 
-    // hardcoded routines - didn't choose to use integrate swiftdata with these values as these would be constant.
+    /// A list of hardcoded workout routines to display in the "Explore" tab.
+    /// These routines are constant and are not integrated with SwiftData.
     let exploreRoutines = [
-        // STRENGTH
-        WorkoutRoutine(name: "Pull Day Routine", 
+        WorkoutRoutine(name: "Pull Day Routine",
                        imageName: "strength1",
                        time: "90 mins",
                        description: "Push the limits with pull day exercises."),
-       
         WorkoutRoutine(name: "Push Day Routine",
                        imageName: "strength2",
                        time: "90 mins",
                        description: "Push the limits with push day exercises."),
-        
-        // FULL BODY
-        WorkoutRoutine(name: "7 Minute Daily Workout", 
-                       imageName: "fullbody1", 
+        WorkoutRoutine(name: "7 Minute Daily Workout",
+                       imageName: "fullbody1",
                        time: "7 mins",
                        description: "7 mins a day keeps the doctor away."),
-        WorkoutRoutine(name: "Fullbody Mat Routine", 
+        WorkoutRoutine(name: "Fullbody Mat Routine",
                        imageName: "fullbody2",
                        time: "20 mins",
                        description: "Grab your yoga mat and complete this low intensity full body workout."),
-
-        // DUMBBELL
-        WorkoutRoutine(name: "Strength Dumbbell Workout", 
+        WorkoutRoutine(name: "Strength Dumbbell Workout",
                        imageName: "dumbbell1",
                        time: "20 mins",
                        description: "Train your core strength with this dumbbell-only workout."),
-        WorkoutRoutine(name: "Lower Body Workout", 
+        WorkoutRoutine(name: "Lower Body Workout",
                        imageName: "dumbbell2",
                        time: "15 mins",
                        description: "Minimal equipment lower body workout."),
-
-        // STRETCHING
-        WorkoutRoutine(name: "Everyday Stretch Routine", 
-                       imageName: "stretch1", 
+        WorkoutRoutine(name: "Everyday Stretch Routine",
+                       imageName: "stretch1",
                        time: "7 mins",
                        description: "Low intensity, quick, and perfect to incorporate into your everyday life."),
-        WorkoutRoutine(name: "Flexibility Stretch Routine", 
+        WorkoutRoutine(name: "Flexibility Stretch Routine",
                        imageName: "stretch2",
                        time: "10 mins",
                        description: "Perfect for those trying to increase their flexibility."),
-    
-        // CARDIO
-        WorkoutRoutine(name: "Skipping Warm Up Routine", 
+        WorkoutRoutine(name: "Skipping Warm Up Routine",
                        imageName: "cardio1",
                        time: "10 mins",
                        description: "Warm up before your workout with this skipping routine."),
-        WorkoutRoutine(name: "Outdoor Cardio Routine", 
+        WorkoutRoutine(name: "Outdoor Cardio Routine",
                        imageName: "cardio2",
                        time: "30 mins",
-                       description: "Perfect for outdoors."),
+                       description: "Perfect for outdoors.")
     ]
 
-    
     var body: some View {
         VStack {
             // Header
@@ -73,7 +73,7 @@ struct WorkoutView: View {
                 .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))  // Orange color for header
                 .padding(.top)
             
-            // tab switcher between 'Explore' and 'My Routines'
+            // Tab switcher between "Explore" and "My Routines"
             HStack {
                 Button(action: {
                     selectedTab = "Explore"
@@ -99,8 +99,9 @@ struct WorkoutView: View {
             }
             .padding(.horizontal)
 
+            // Display content based on the selected tab
             if selectedTab == "Explore" {
-                // display hardcoded routines in the 'Explore' tab
+                // Explore tab: display predefined routines
                 ScrollView {
                     ForEach(exploreRoutines) { routine in
                         RoutineCardView(routine: routine, isSaved: savedRoutineNames.contains(routine.name), onSave: {
@@ -110,7 +111,7 @@ struct WorkoutView: View {
                 }
                 .padding()
             } else {
-                // display saved routines in 'My Routines' tab
+                // My Routines tab: display saved routines from SwiftData
                 if savedRoutines.isEmpty {
                     Text("You have no saved routines. Save a workout routine from our Explore page and it will appear here.")
                         .font(.headline)
@@ -126,14 +127,18 @@ struct WorkoutView: View {
             }
         }
         .onAppear {
-            // update the saved routines list when the view appears
             updateSavedRoutineNames()
         }
     }
+
+    /**
+     Saves the selected workout routine into the SwiftData database if it's not already saved.
+     
+     - Parameter routine: The `WorkoutRoutine` to save.
+     */
     
-    // function to save a routine
     private func saveRoutine(_ routine: WorkoutRoutine) {
-        // to only save if the routine is not already saved
+        // Only save if the routine is not already saved
         guard !savedRoutineNames.contains(routine.name) else { return }
         
         let newSavedRoutine = SavedRoutine(
@@ -142,109 +147,86 @@ struct WorkoutView: View {
             time: routine.time,
             workoutDescription: routine.description
         )
-        modelContext.insert(newSavedRoutine)  // insert the saved routine into SwiftData
+        modelContext.insert(newSavedRoutine)  // Insert the new saved routine into SwiftData
         
-        savedRoutineNames.insert(routine.name)  // adding routine to the saved list
+        savedRoutineNames.insert(routine.name)  // Add the routine to the saved list
     }
     
-    // function to update the list of saved routine names from SwiftData
+    /**
+     Updates the list of saved routine names from the saved routines fetched via SwiftData.
+     */
     private func updateSavedRoutineNames() {
         savedRoutineNames = Set(savedRoutines.map { $0.name })
     }
 }
 
-// view for displaying a workout in 'Explore' tab
+/**
+ A view that displays a workout routine in the "Explore" tab.
+ 
+ The user can view workout details and save the routine to "My Routines".
+ */
 struct RoutineCardView: View {
-//    let routine: WorkoutRoutine
-//    let isSaved: Bool  // check if the routine is saved
-//    let onSave: () -> Void
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 16) {
-//            Image(routine.imageName)
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//                .frame(height: 150)
-//                .clipped()
-//
-//            Text(routine.name)
-//                .font(.headline)
-//
-//            HStack {
-//                Image(systemName: "clock")
-//                Text(routine.time)
-//            }
-//
-//            Text(routine.description)
-//                .font(.subheadline)
-//                .lineLimit(2)
-//
-//            Button(action: onSave) {
-//                Text(isSaved ? "Saved" : "Save to My Routines")
-//                    .padding()
-//                    .frame(maxWidth: .infinity)
-//                    .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // green default, gray for already saved
-//                    .foregroundColor(.white)
-//                    .cornerRadius(8)
-//            }
-//            .disabled(isSaved)  // disable save button if already saved
-//
-//            Divider()
-//        }
-//        .padding()
-//        .background(Color.gray.opacity(0.1))
-//        .cornerRadius(8)
-//    }
-        let routine: WorkoutRoutine
-        let isSaved: Bool  // check if the routine is saved
-        let onSave: () -> Void
-        @State private var showDetails = false  // State for modal visibility
+    /// The workout routine being displayed.
+    let routine: WorkoutRoutine
+    
+    /// A boolean value that indicates whether the routine is already saved.
+    let isSaved: Bool
+    
+    /// A closure to handle saving the routine when the user taps the "Save to My Routines" button.
+    let onSave: () -> Void
+    
+    /// Tracks whether the detail modal is being shown.
+    @State private var showDetails = false
 
-        var body: some View {
-            VStack(alignment: .leading, spacing: 16) {
-                Image(routine.imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 150)
-                    .clipped()
-                    .onTapGesture(count: 2) {
-                        self.showDetails = true  // Toggle the state to show the modal on double tap
-                    }
-                    .sheet(isPresented: $showDetails) {
-                        WorkoutDetailModal(routine: routine)  // Modal view with more details
-                    }
-
-                Text(routine.name)
-                    .font(.headline)
-
-                HStack {
-                    Image(systemName: "clock")
-                    Text(routine.time)
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Image(routine.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 150)
+                .clipped()
+                .onTapGesture(count: 2) {
+                    showDetails = true  /// Show workout details in a modal on double-tap
+                }
+                .sheet(isPresented: $showDetails) {
+                    WorkoutDetailModal(routine: routine)
                 }
 
-                Text(routine.description)
-                    .font(.subheadline)
-                    .lineLimit(2)
+            Text(routine.name)
+                .font(.headline)
 
-                Button(action: onSave) {
-                    Text(isSaved ? "Saved" : "Save to My Routines")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // Green default, gray for already saved
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                .disabled(isSaved)  // Disable save button if already saved
-
-                Divider()
+            HStack {
+                Image(systemName: "clock")
+                Text(routine.time)
             }
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(8)
+
+            Text(routine.description)
+                .font(.subheadline)
+                .lineLimit(2)
+
+            Button(action: onSave) {
+                Text(isSaved ? "Saved" : "Save to My Routines")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isSaved ? Color.gray : Color(red: 0.404, green: 0.773, blue: 0.702))  // Green for default, gray if already saved
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .disabled(isSaved)  /// Disables the save button if already saved
+
+            Divider()
         }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(8)
+    }
 }
 
+/**
+ A modal view that displays detailed information about a selected workout routine.
+ */
 struct WorkoutDetailModal: View {
+    /// The workout routine being displayed in detail.
     var routine: WorkoutRoutine
 
     var body: some View {
@@ -267,7 +249,7 @@ struct WorkoutDetailModal: View {
                 .multilineTextAlignment(.center)
             
             Button("Close") {
-                // Intentionally left blank for UI structure; handle closing in practice
+                // Placeholder action for closing the modal
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -276,8 +258,11 @@ struct WorkoutDetailModal: View {
     }
 }
 
-// view for displaying a saved workout in 'My Routines' tab
+/**
+ A view for displaying a saved workout routine in the "My Routines" tab.
+ */
 struct SavedRoutineCardView: View {
+    /// The saved workout routine being displayed.
     let savedRoutine: SavedRoutine
 
     var body: some View {
@@ -308,25 +293,44 @@ struct SavedRoutineCardView: View {
     }
 }
 
-// helper model to use in the Explore tab, however doesn't need swiftData
+/**
+ A helper model representing a workout routine in the "Explore" tab. This model is not stored in SwiftData.
+ */
+
 struct WorkoutRoutine: Identifiable {
+    /// The unique identifier for the workout routine.
     let id = UUID()
-    let name: String
-    let imageName: String
-    let time: String
-    let description: String
-    let detailedDescription: String  // Additional property for the modal
-
-        init(name: String, imageName: String, time: String, description: String, detailedDescription: String = "") {
-            self.name = name
-            self.imageName = imageName
-            self.time = time
-            self.description = description
-            self.detailedDescription = detailedDescription  // Default empty if not provided
-        }
     
+    /// The name of the workout routine.
+    let name: String
+    
+    /// The image name associated with the workout routine.
+    let imageName: String
+    
+    /// The time duration for the workout routine.
+    let time: String
+    
+    /// A brief description of the workout routine.
+    let description: String
+    
+    /// A detailed description of the workout routine, used in the detail modal.
+    let detailedDescription: String
+
+    /**
+     Initializes a new `WorkoutRoutine` instance.
+     
+     - Parameters:
+       - name: The name of the workout.
+       - imageName: The name of the workout image file.
+       - time: The duration of the workout.
+       - description: A brief description of the workout.
+       - detailedDescription: A detailed description for the modal view. Defaults to an empty string.
+     */
+    init(name: String, imageName: String, time: String, description: String, detailedDescription: String = "") {
+        self.name = name
+        self.imageName = imageName
+        self.time = time
+        self.description = description
+        self.detailedDescription = detailedDescription
+    }
 }
-
-
-
-

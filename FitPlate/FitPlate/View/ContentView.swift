@@ -7,24 +7,33 @@
 
 import SwiftUI
 
-struct AnimatedTextView: View { // animated view to show FitPlate Logo and Text
-    @State private var isVisible = false
+/**
+ The `AnimatedTextView` displays the app's logo text "FitPlate" with an animated appearance effect.
+ */
+
+struct AnimatedTextView: View {
     
+    /// State variable to control the visibility and fade animation of the "Plate" text.
+
+    @State private var isVisible = false
     
     var body: some View {
         HStack(spacing: 0) {
+            // "Fit" portion of the logo
             Text("Fit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396)) // orange
+                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))  // Orange color
 
+            // "Plate" portion of the logo with animation
             Text("Plate")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702)) // green
-                .opacity(isVisible ? 1 : 0)
-                .scaleEffect(isVisible ? 1 : 0.5)
+                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green color
+                .opacity(isVisible ? 1 : 0)  // Fade in effect
+                .scaleEffect(isVisible ? 1 : 0.5)  // Scale in effect
                 .onAppear {
+                    // Animate when the view appears
                     withAnimation(.easeInOut(duration: 1.5)) {
                         isVisible = true
                     }
@@ -33,28 +42,34 @@ struct AnimatedTextView: View { // animated view to show FitPlate Logo and Text
     }
 }
 
+/**
+ The `ContentView` serves as the launch screen of the FitPlate app, displaying an animated logo, the app logo image, and a button to navigate to the sign-up view.
+ */
 struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                // Animated logo text
                 AnimatedTextView()
 
+                // App logo image
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 300, height: 300)
 
+                // "Get Started" button navigating to the sign-up view
                 NavigationLink(destination: SignupView()) {
                     Text("Get Started")
                         .padding()
                         .frame(minWidth: 200)
-                        .background(Color(red: 0.819, green: 0.302, blue: 0.408)) // pink
+                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // Pink color
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
                 .padding()
             }
-            .navigationTitle("")
+            .navigationTitle("")  // Remove the navigation title for a cleaner look
         }
     }
 }
