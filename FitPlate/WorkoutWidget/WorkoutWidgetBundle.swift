@@ -8,10 +8,11 @@
 import WidgetKit
 import SwiftUI
 
-@main
+
 struct WorkoutWidgetBundle: WidgetBundle {
+    @WidgetBundleBuilder
     var body: some Widget {
         WorkoutWidget()
-        WorkoutWidgetLiveActivity()
     }
 }
+

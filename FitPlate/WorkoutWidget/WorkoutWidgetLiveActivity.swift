@@ -78,3 +78,4 @@ extension WorkoutWidgetAttributes.ContentState {
     WorkoutWidgetAttributes.ContentState.smiley
     WorkoutWidgetAttributes.ContentState.starEyes
 }
+

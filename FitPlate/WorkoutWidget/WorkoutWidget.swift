@@ -1,40 +1,47 @@
-//
-//  WorkoutWidget.swift
-//  WorkoutWidget
-//
-//  Created by Monessha Vetrivelan on 13/10/2024.
-//
-
 import WidgetKit
 import SwiftUI
+import Intents
 
-struct Provider: AppIntentTimelineProvider {
+struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), routines: [WorkoutItem(name: "Placeholder Routine", description: "A placeholder workout description")])
     }
 
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+        let entry = SimpleEntry(date: Date(), routines: [WorkoutItem(name: "Snapshot Routine", description: "A snapshot workout description")])
+        completion(entry)
     }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
+        let routines = fetchSavedWorkouts()  // Fetch saved routines, possibly from shared storage or your app's database.
+        let entry = SimpleEntry(date: currentDate, routines: routines)
+        entries.append(entry)
 
-        return Timeline(entries: entries, policy: .atEnd)
+        let timeline = Timeline(entries: entries, policy: .atEnd)
+        completion(timeline)
+    }
+
+    private func fetchSavedWorkouts() -> [WorkoutItem] {
+        // Mocked data; replace this with actual data fetching logic.
+        
+        return [
+            WorkoutItem(name: "Morning Stretch", description: "Start your day with a stretching routine."),
+            WorkoutItem(name: "Evening Run", description: "A quick run to end your day.")
+        ]
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let routines: [WorkoutItem]
+}
+
+struct WorkoutItem: Identifiable {
+    let id = UUID()
+    let name: String
+    let description: String
 }
 
 struct WorkoutWidgetEntryView : View {
@@ -42,43 +49,28 @@ struct WorkoutWidgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+            ForEach(entry.routines) { routine in
+                VStack(alignment: .leading) {
+                    Text(routine.name)
+                        .font(.headline)
+                    Text(routine.description)
+                        .font(.caption)
+                }
+            }
         }
     }
 }
 
+@main
 struct WorkoutWidget: Widget {
     let kind: String = "WorkoutWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WorkoutWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
         }
+        .configurationDisplayName("Workout Routines")
+        .description("Displays your saved workout routines.")
     }
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
-
-#Preview(as: .systemSmall) {
-    WorkoutWidget()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
-}
