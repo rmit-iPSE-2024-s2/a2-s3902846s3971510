@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-import PhotosUI
 import SwiftData
+import UIKit
 
 struct ProfileView: View {
     @State private var profileImage: Image? = nil  // var to hold profile image displayed
-    @State private var selectedItem: PhotosPickerItem? = nil  // to hold selected image from PhotosPicker
+    @State private var showImagePicker = false  // to toggle UIKit image picker
+    @State private var inputImage: UIImage? = nil  // to hold selected image from UIKit image picker
     @Environment(\.modelContext) var modelContext  // access to swiftData model
     @Query var profiles: [Profile]  // query profile
 
@@ -54,8 +55,10 @@ struct ProfileView: View {
 
             // buttons for Edit Picture and Edit Profile
             HStack(spacing: 20) {
-                // Edit Picture button
-                PhotosPicker(selection: $selectedItem, matching: .images) {
+                // UIKit-based Image Picker button
+                Button(action: {
+                    showImagePicker = true  // Show the UIKit Image Picker
+                }) {
                     Text("Edit Picture")
                         .font(.headline)
                         .frame(minWidth: 120)
@@ -64,16 +67,14 @@ struct ProfileView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                .onChange(of: selectedItem) {
-                    if let newItem = selectedItem {
-                        Task {
-                            if let data = try? await newItem.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
-                                profileImage = Image(uiImage: uiImage)  // convert uiimage to swiftui image
-                            }
-                        }
-                    }
+                .sheet(isPresented: $showImagePicker) {
+                    // Present the UIKit Image Picker
+                    ImagePicker(selectedImage: $inputImage)
                 }
-                //test
+                .onChange(of: inputImage) {
+                    loadImage()  // Load the image when it's selected
+                }
+
                 // Edit Profile button
                 NavigationLink(destination: EditProfileView(profile: profile)) {
                     Text("Edit Profile")
@@ -109,5 +110,11 @@ struct ProfileView: View {
             Spacer()
         }
         .padding()
+    }
+
+    // Function to convert UIImage to SwiftUI Image and assign to profileImage
+    private func loadImage() {
+        guard let inputImage = inputImage else { return }
+        profileImage = Image(uiImage: inputImage)
     }
 }
