@@ -94,7 +94,6 @@ struct ProfileView: View {
                     .fontWeight(.bold)
 
                 if let profile = profile {
-                    Text("Nutrition: \(profile.nutrition)")
                     Text("Goal: \(profile.goal)")
                     Text("Goal Weight: \(profile.goalWeight) kg")
                     Text("Calories: \(profile.calories)")

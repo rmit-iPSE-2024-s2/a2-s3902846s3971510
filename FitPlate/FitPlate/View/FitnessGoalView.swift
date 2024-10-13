@@ -9,43 +9,46 @@ import SwiftUI
 import SwiftData
 
 struct FitnessGoalView: View {
-    @State private var availableGoals = ["Daily Workout Completed", 
-                                         "10,000 Steps",
-                                         "Hydrated with 2L Water",
-                                         "8 Hours Sleep",
-                                         "Weight Tracker"]
-    @State private var activeGoals: [String] = []
     @State private var showAddGoal = false  // to show daily goal add menu
-    @State private var currentWeight: String = ""  // current weight input
-    @State private var isWeightEditable = true   // state for whether current weight input is editable
-    @State private var completedGoals: [String] = []  // to track completed goals
-    @State private var recentlyAddedGoal: String? = nil // to track added goals
-    @State private var weightProgress: Double = 0.0  // to track weight progress
     @Environment(\.modelContext) var modelContext
-    @Query var profiles: [Profile]
+    @Query var fitnessGoals: [FitnessGoal]  // Query for fitness goals
+    @State private var activeGoals: [String] = [] // track the active goals locally for the UI
+    @State private var availableGoals: [String] = []  // track available goals locally
+    @State private var completedGoals: [String: Bool] = [:]  // track completion status per goal
+
+    var defaultAvailableGoals = ["Daily Workout Completed", "10,000 Steps", "Hydrated with 2L Water", "8 Hours Sleep"]
 
     var body: some View {
-        let profile = profiles.first
+        
+        let fitnessGoal = fitnessGoals.first ?? FitnessGoal(activeGoals: [], completedGoals: [:], availableGoals: [])
 
         VStack(alignment: .leading, spacing: 20) {
+            // Fitness Goals title
             Text("Fitness Goals")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 0.819, green: 0.302, blue: 0.408))
                 .padding(.top)
 
+            // show message if no active goals are present
             if activeGoals.isEmpty {
                 Text("You currently have no Fitness Goals added")
                     .foregroundColor(.gray)
                     .font(.headline)
                     .padding(.top)
             } else {
-                ForEach(activeGoals, id: \.self) { goal in
-                    if goal == "Weight Tracker" {
-                        weightTrackerSection(profile: profile)
-                    } else {
-                        DailyGoalTracker(goal: goal, isCompleted: completedGoals.contains(goal)) {
-                            completedGoals.append(goal)  // mark goal as completed
+                // list the active goals
+                List {
+                    ForEach(activeGoals, id: \.self) { goal in
+                        DailyGoalTracker(goal: goal, isCompleted: completedGoals[goal] ?? false) {
+                            toggleGoalCompletion(goal: goal, fitnessGoal: fitnessGoal)  // Toggle goal completion state
+                        }
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                removeGoal(goal, fitnessGoal: fitnessGoal)  // to show removal option on swipe of the goal
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
@@ -53,117 +56,81 @@ struct FitnessGoalView: View {
 
             Spacer()
 
-            HStack {
-                Spacer()
-                Button(action: {
-                    showAddGoal = true
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))
+            // only show + button if there are available goals to add
+            if !availableGoals.isEmpty {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showAddGoal = true
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))
+                    }
+                    // show the add goal form
+                    .sheet(isPresented: $showAddGoal) {
+                        AddGoalSheet(availableGoals: $availableGoals, activeGoals: $activeGoals, fitnessGoal: fitnessGoal, completedGoals: $completedGoals)
+                    }
+                    Spacer()
                 }
-                .sheet(isPresented: $showAddGoal) {
-                    AddGoalSheet(availableGoals: $availableGoals, activeGoals: $activeGoals, recentlyAddedGoal: $recentlyAddedGoal)
-                }
-                Spacer()
             }
         }
         .padding()
-        .background(Color.white.edgesIgnoringSafeArea(.all))
-    }
-
-    @ViewBuilder
-    private func weightTrackerSection(profile: Profile?) -> some View {
-        if let profile = profile {
-            let goalWeight = profile.goalWeight
-            let isGainingWeight = profile.goal == "Gain Weight"
-
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Current Weight: \(currentWeight.isEmpty ? "Not Entered" : currentWeight) kg")
-                    
-                    if !isWeightEditable {
-                        Button(action: {
-                            isWeightEditable = true  // to make the current weight input editable again
-                        }) {
-                            Image(systemName: "pencil") // edit icon
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-
-                if !currentWeight.isEmpty, let current = Int(currentWeight) {
-                    let remainingWeight = isGainingWeight ? goalWeight - current : current - goalWeight
-                    let message = isGainingWeight ? "Gain \(remainingWeight) kg to reach your goal weight!" : "Lose \(remainingWeight) kg to reach your goal weight!"
-
-                    if remainingWeight > 0 {
-                        Text(message)
-                    }
-
-                    // Progress Bar
-                    HStack {
-                        Text("\(currentWeight) kg")
-                        ProgressView(value: weightProgress)
-                            .progressViewStyle(LinearProgressViewStyle())
-                            .frame(height: 10)
-                        Text("\(goalWeight) kg")
-                    }
-                }
-
-                if isWeightEditable {
-                    TextField("Enter current weight", text: $currentWeight, onCommit: {
-                        validateAndSetWeight(goalWeight: goalWeight, isGainingWeight: isGainingWeight)
-                    })
-                    .keyboardType(.decimalPad)
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-                }
-            }
-            .padding(.top)
-        } else {
-            Text("Profile data not found")
+        .onAppear {
+            loadFitnessGoals(fitnessGoal: fitnessGoal)  // load saved goals on appear
         }
     }
 
-    private func validateAndSetWeight(goalWeight: Int, isGainingWeight: Bool) {
-        if let current = Int(currentWeight), validateWeight(currentWeight: current, goalWeight: goalWeight, isGainingWeight: isGainingWeight) {
-            updateWeightProgress(currentWeight: current, goalWeight: goalWeight, isGainingWeight: isGainingWeight)
-            isWeightEditable = false  // make weight input uneditable after validation
-        }
+    // load active goals and available goals from the fitness goal model
+    private func loadFitnessGoals(fitnessGoal: FitnessGoal) {
+        activeGoals = fitnessGoal.activeGoals
+        completedGoals = fitnessGoal.completedGoals
+
+        // initialise available goals with defaults if no saved available goals, excluding active ones
+        availableGoals = fitnessGoal.availableGoals.isEmpty ? defaultAvailableGoals.filter { !activeGoals.contains($0) } : fitnessGoal.availableGoals
     }
 
-    private func updateWeightProgress(currentWeight: Int, goalWeight: Int, isGainingWeight: Bool) {
-        let progress = isGainingWeight ? Double(currentWeight) / Double(goalWeight) : Double(goalWeight) / Double(currentWeight)
-        weightProgress = min(progress, 1.0)
+    // Toggle the checkmark of a goal and save it in SwiftData
+    private func toggleGoalCompletion(goal: String, fitnessGoal: FitnessGoal) {
+        completedGoals[goal]?.toggle()
+        fitnessGoal.completedGoals = completedGoals
+        try? modelContext.save()  // Save changes
     }
 
-    // validation for current weight on weight tracker
-    private func validateWeight(currentWeight: Int, goalWeight: Int, isGainingWeight: Bool) -> Bool {
-        if isGainingWeight {
-            return currentWeight <= goalWeight  // cannot exceed goal weight when gaining weight is the goal in profile
-        } else {
-            return currentWeight >= goalWeight  // cannot be lower than goal weight when losing weight is the goal in profile
-        }
+    // Remove a goal from active goals and SwiftData, add it back to availableGoals for user to select and also save in SwiftData
+    
+    private func removeGoal(_ goal: String, fitnessGoal: FitnessGoal) {
+        activeGoals.removeAll { $0 == goal }
+        fitnessGoal.activeGoals.removeAll { $0 == goal }
+        availableGoals.append(goal)
+        completedGoals[goal] = false
+        fitnessGoal.completedGoals = completedGoals  // save the updated completedGoals
+        fitnessGoal.availableGoals = availableGoals  // save the updated availableGoals
+        try? modelContext.save()  // Save changes in SwiftData
     }
 }
 
+// addgoal form/sheet logic
 struct AddGoalSheet: View {
     @Binding var availableGoals: [String]
     @Binding var activeGoals: [String]
-    @Binding var recentlyAddedGoal: String?
-    @Environment(\.dismiss) var dismiss  // Dismiss environment action
+    var fitnessGoal: FitnessGoal
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var modelContext
+    @Binding var completedGoals: [String: Bool]
 
     var body: some View {
         NavigationView {
             List {
+                // List of available goals to add
                 ForEach(availableGoals, id: \.self) { goal in
                     Button(action: {
+                        // Add the goal to active goals, then remove it from available goals in the sheet.
                         if !activeGoals.contains(goal) {
                             activeGoals.append(goal)
                             availableGoals.removeAll { $0 == goal }
-                            recentlyAddedGoal = goal
-                            dismiss()
+                            completedGoals[goal] = false
+                            saveActiveGoals(fitnessGoal: fitnessGoal)
                         }
                     }) {
                         Text(goal)
@@ -172,26 +139,36 @@ struct AddGoalSheet: View {
             }
             .navigationTitle("Add Daily Goal")
             .navigationBarItems(trailing: Button("Done") {
-                dismiss()  // DONE BUTTON to close the Add Tracker menu
+                dismiss()  // Done button
             })
         }
+    }
+
+    // save changes in SwiftData
+    private func saveActiveGoals(fitnessGoal: FitnessGoal) {
+        fitnessGoal.activeGoals = activeGoals
+        fitnessGoal.completedGoals = completedGoals  // save completion status for each goal
+        fitnessGoal.availableGoals = availableGoals  // save updated available goals
+        try? modelContext.save()
     }
 }
 
 struct DailyGoalTracker: View {
     var goal: String
     var isCompleted: Bool
-    var markCompleted: () -> Void
+    var markCompleted: () -> Void  // Callback to toggle completion
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
+                // display goals text
                 Text(goal)
                     .font(.body)
                     .foregroundColor(.black)
 
                 Spacer()
 
+                // check button to mark goal as completed
                 Button(action: markCompleted) {
                     Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
                         .font(.title2)
