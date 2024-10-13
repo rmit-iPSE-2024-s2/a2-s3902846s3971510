@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F5005612CBBF0C3007C4F28 /* FitPlateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5005602CBBF0C3007C4F28 /* FitPlateTest.swift */; };
 		3F653EDB2CBA1712009E0325 /* FilteredRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F653EDA2CBA1712009E0325 /* FilteredRecipesView.swift */; };
 		3F653F062CBBA226009E0325 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F653F052CBBA225009E0325 /* WidgetKit.framework */; };
 		3F653F082CBBA226009E0325 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F653F072CBBA226009E0325 /* SwiftUI.framework */; };
@@ -38,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3F5005622CBBF0C3007C4F28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F029C8912C827B6900514C45 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F029C8982C827B6900514C45;
+			remoteInfo = FitPlate;
+		};
 		3F653EE42CBA4A19009E0325 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F029C8912C827B6900514C45 /* Project object */;
@@ -76,6 +84,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F50055E2CBBF0C3007C4F28 /* FitPlateTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitPlateTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F5005602CBBF0C3007C4F28 /* FitPlateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitPlateTest.swift; sourceTree = "<group>"; };
 		3F653EDA2CBA1712009E0325 /* FilteredRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredRecipesView.swift; sourceTree = "<group>"; };
 		3F653EE02CBA4A19009E0325 /* SignupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F653EF52CBAAC2B009E0325 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +122,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F50055B2CBBF0C3007C4F28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F653EDD2CBA4A19009E0325 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -145,6 +162,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F50055F2CBBF0C3007C4F28 /* FitPlateTest */ = {
+			isa = PBXGroup;
+			children = (
+				3F5005602CBBF0C3007C4F28 /* FitPlateTest.swift */,
+			);
+			path = FitPlateTest;
+			sourceTree = "<group>";
+		};
 		3F653F042CBBA225009E0325 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +197,7 @@
 			children = (
 				F029C89B2C827B6900514C45 /* FitPlate */,
 				3F653F092CBBA226009E0325 /* WorkoutWidget */,
+				3F50055F2CBBF0C3007C4F28 /* FitPlateTest */,
 				3F653F042CBBA225009E0325 /* Frameworks */,
 				F029C89A2C827B6900514C45 /* Products */,
 			);
@@ -184,6 +210,7 @@
 				3F653EE02CBA4A19009E0325 /* SignupTests.xctest */,
 				3F653EF52CBAAC2B009E0325 /* UnitTests.xctest */,
 				3F653F032CBBA225009E0325 /* WorkoutWidgetExtension.appex */,
+				3F50055E2CBBF0C3007C4F28 /* FitPlateTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +286,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F50055D2CBBF0C3007C4F28 /* FitPlateTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F5005662CBBF0C3007C4F28 /* Build configuration list for PBXNativeTarget "FitPlateTest" */;
+			buildPhases = (
+				3F50055A2CBBF0C3007C4F28 /* Sources */,
+				3F50055B2CBBF0C3007C4F28 /* Frameworks */,
+				3F50055C2CBBF0C3007C4F28 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F5005632CBBF0C3007C4F28 /* PBXTargetDependency */,
+			);
+			name = FitPlateTest;
+			productName = FitPlateTest;
+			productReference = 3F50055E2CBBF0C3007C4F28 /* FitPlateTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3F653EDF2CBA4A19009E0325 /* SignupTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F653EE62CBA4A19009E0325 /* Build configuration list for PBXNativeTarget "SignupTests" */;
@@ -341,6 +386,10 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					3F50055D2CBBF0C3007C4F28 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F029C8982C827B6900514C45;
+					};
 					3F653EDF2CBA4A19009E0325 = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = F029C8982C827B6900514C45;
@@ -374,11 +423,19 @@
 				3F653EDF2CBA4A19009E0325 /* SignupTests */,
 				3F653EF42CBAAC2B009E0325 /* UnitTests */,
 				3F653F022CBBA225009E0325 /* WorkoutWidgetExtension */,
+				3F50055D2CBBF0C3007C4F28 /* FitPlateTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F50055C2CBBF0C3007C4F28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F653EDE2CBA4A19009E0325 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -413,6 +470,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F50055A2CBBF0C3007C4F28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F5005612CBBF0C3007C4F28 /* FitPlateTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F653EDC2CBA4A19009E0325 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -466,6 +531,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3F5005632CBBF0C3007C4F28 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F029C8982C827B6900514C45 /* FitPlate */;
+			targetProxy = 3F5005622CBBF0C3007C4F28 /* PBXContainerItemProxy */;
+		};
 		3F653EE52CBA4A19009E0325 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F029C8982C827B6900514C45 /* FitPlate */;
@@ -484,6 +554,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3F5005642CBBF0C3007C4F28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.FitPlateTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Debug;
+		};
+		3F5005652CBBF0C3007C4F28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hello-world.FitPlateTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FitPlate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FitPlate";
+			};
+			name = Release;
+		};
 		3F653EE72CBA4A19009E0325 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -784,6 +888,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F5005662CBBF0C3007C4F28 /* Build configuration list for PBXNativeTarget "FitPlateTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F5005642CBBF0C3007C4F28 /* Debug */,
+				3F5005652CBBF0C3007C4F28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3F653EE62CBA4A19009E0325 /* Build configuration list for PBXNativeTarget "SignupTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

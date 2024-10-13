@@ -36,3 +36,48 @@ class FitnessGoal {
         self.availableGoals = availableGoals  
     }
 }
+extension FitnessGoal {
+    func addActiveGoal(_ goal: String) {
+        activeGoals.append(goal)
+    }
+    
+    func removeActiveGoal(_ goal: String) {
+        activeGoals.removeAll { $0 == goal }
+    }
+    
+    func completeGoal(_ goal: String) {
+        completedGoals[goal] = true
+        removeActiveGoal(goal)
+    }
+    
+    func isGoalCompleted(_ goal: String) -> Bool {
+        completedGoals[goal] ?? false
+    }
+    
+    func hasMetAllGoals() -> Bool {
+        stepsGoalMet && waterIntakeMet && sleepGoalMet && workoutCompleted
+    }
+    
+    func hasActiveGoal(_ goal: String) -> Bool {
+        activeGoals.contains(goal)
+    }
+    
+    func updateWorkoutCompletion(status: Bool) {
+        workoutCompleted = status
+    }
+    
+    func updateStepsGoal(status: Bool) {
+        stepsGoalMet = status
+    }
+    
+    func updateWaterIntake(status: Bool) {
+        waterIntakeMet = status
+    }
+    
+    func updateSleepGoal(status: Bool) {
+        sleepGoalMet = status
+    }
+    
+}
+
+
