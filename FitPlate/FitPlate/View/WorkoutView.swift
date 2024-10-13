@@ -25,7 +25,8 @@ struct WorkoutView: View {
         WorkoutRoutine(name: "Pull Day Routine",
                        imageName: "strength1",
                        time: "90 mins",
-                       description: "Push the limits with pull day exercises."),
+                       description: "Push the limits with pull day exercises.",
+                       detailedDesc: "A Pull Day Routine targets and strengthens the back, biceps, and rear deltoids, enhancing upper body muscle balance and improving posture."),
         WorkoutRoutine(name: "Push Day Routine",
                        imageName: "strength2",
                        time: "90 mins",
@@ -61,7 +62,7 @@ struct WorkoutView: View {
         WorkoutRoutine(name: "Outdoor Cardio Routine",
                        imageName: "cardio2",
                        time: "30 mins",
-                       description: "Perfect for outdoors.")
+                       description: "Perfect for outdoors."),
     ]
 
     var body: some View {
@@ -136,7 +137,6 @@ struct WorkoutView: View {
      
      - Parameter routine: The `WorkoutRoutine` to save.
      */
-    
     private func saveRoutine(_ routine: WorkoutRoutine) {
         // Only save if the routine is not already saved
         guard !savedRoutineNames.contains(routine.name) else { return }
@@ -244,7 +244,7 @@ struct WorkoutDetailModal: View {
                 .font(.headline)
                 .padding([.leading, .trailing, .bottom])
             
-            Text(routine.detailedDescription)
+            Text(routine.detailedDesc)
                 .padding()
                 .multilineTextAlignment(.center)
             
@@ -314,7 +314,7 @@ struct WorkoutRoutine: Identifiable {
     let description: String
     
     /// A detailed description of the workout routine, used in the detail modal.
-    let detailedDescription: String
+    let detailedDesc: String
 
     /**
      Initializes a new `WorkoutRoutine` instance.
@@ -324,13 +324,17 @@ struct WorkoutRoutine: Identifiable {
        - imageName: The name of the workout image file.
        - time: The duration of the workout.
        - description: A brief description of the workout.
-       - detailedDescription: A detailed description for the modal view. Defaults to an empty string.
+       - detailedDesc: A detailed description for the modal view. Defaults to an empty string.
      */
-    init(name: String, imageName: String, time: String, description: String, detailedDescription: String = "") {
+    init(name: String, imageName: String, time: String, description: String, detailedDesc: String = "") {
         self.name = name
         self.imageName = imageName
         self.time = time
         self.description = description
-        self.detailedDescription = detailedDescription
+        self.detailedDesc = detailedDesc
     }
+}
+
+#Preview {
+    WorkoutView()
 }
