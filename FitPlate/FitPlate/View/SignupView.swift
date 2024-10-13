@@ -49,9 +49,13 @@ struct SignupView: View {
                     .cornerRadius(8)
             }
             .padding(.horizontal, 40)
-            .navigationDestination(isPresented: $signedUp) {
-                UsersView(sortOrder: [SortDescriptor(\User.email)])  // nav to login after signup
-            }
+//            .navigationDestination(isPresented: $signedUp) {
+//                UsersView(sortOrder: [SortDescriptor(\User.email)])  // nav to login after signup
+//            }
+            NavigationLink(destination: LoginView(), isActive: $signedUp) {
+                            EmptyView()
+                        }
+            
             
             Spacer()
             
