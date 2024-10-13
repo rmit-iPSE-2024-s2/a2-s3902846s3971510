@@ -192,8 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				F060D9172CBBDABD00B6C5FC /* README.md */,
-				F060D9142CBBD93300B6C5FC /* Documentation */,
 				F029C89C2C827B6900514C45 /* FitPlateApp.swift */,
+				F060D9142CBBD93300B6C5FC /* Documentation */,
 				F060D8DE2CB96AC700B6C5FC /* Model */,
 				F060D8DD2CB96AA100B6C5FC /* View */,
 				F029C8A02C827B6B00514C45 /* Assets.xcassets */,

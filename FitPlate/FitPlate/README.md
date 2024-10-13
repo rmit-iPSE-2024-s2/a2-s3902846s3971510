@@ -12,6 +12,7 @@ FitPlate is a fitness tracking app that allows users to log their fitness goals,
 ## Features
 
 - **Sign Up / Log In**: Users can create an account or log in to access their personal fitness dashboard.
+- **Generate Recipes**: Users can generate recipes with filters via external API.
 - **Fitness Goals**: Users can set daily goals for steps, calories, and weight.
 - **Workout Routines**: Users can save and track various workout routines.
 - **Profile Management**: Users can update their profile information, including username, fitness goals, and more.

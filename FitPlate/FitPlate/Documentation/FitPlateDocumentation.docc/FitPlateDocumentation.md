@@ -2,7 +2,7 @@
 
 ## Overview
 
-FitPlate is a simple fitness tracking app built using SwiftUI and SwiftData. It allows users to sign up, log in, edit their profiles, and set personal fitness goals such as step goal completion, water intake goals. Users can also save workout routines from the app. It also allows users to fetch and generate recipes by selecting filters from an external API. The app is backed by data persistence using SwiftData, ensuring user data is saved and retained across sessions.
+FitPlate is a simple fitness tracking app built using SwiftUI and SwiftData. It allows users to sign up, log in, edit their profiles, and set personal fitness goals such as step goal completion and water intake goals. Users can also save workout routines and generate recipes by selecting filters from an external API. The app is backed by data persistence using SwiftData, ensuring user data is saved and retained across sessions.
 
 FitPlate's main features include:
 - User account management with sign-up and login functionality.
@@ -14,38 +14,38 @@ FitPlate's main features include:
 
 ## Views
 
-### [ContentView](FitPlate/View/ContentView.swift)
+#### ``ContentView``
 
-### [SignupView](FitPlate/View/SignupView.swift)
+#### ``SignupView``
 
-### [LoginView](FitPlate/View/LoginView.swift)
+#### ``LoginView``
 
-### [HomeView](FitPlate/View/HomeView.swift)
+#### ``HomeView``
 
-### [BottomNavBarView](FitPlate/View/BottomNavBarView.swift)
+#### ``BottomNavBarView``
 
-### [EditProfileView](FitPlate/View/EditProfileView.swift)
+#### ``EditProfileView``
 
-### [AnimatedTextView](FitPlate/View/AnimatedTextView.swift)
+#### ``AnimatedTextView``
 
-### [WorkoutView](FitPlate/View/WorkoutView.swift)
+#### ``WorkoutView``
 
-### [RecipeView](FitPlate/View/RecipeView.swift)
+#### ``RecipeView``
 
-### [FilteredRecipesView](FitPlate/View/FilteredRecipesView.swift)
+#### ``FilteredRecipesView``
 
-### [FitnessGoalView](FitPlate/View/FitnessGoalView.swift)
+#### ``FitnessGoalView``
 
-### [ImagePicker](FitPlate/View/Components/ImagePicker.swift)
+#### ``ImagePicker``
 
 ## Models
 
-### [User](FitPlate/Model/User.swift)
+#### ``User``
 
-### [Profile](FitPlate/Model/Profile.swift)
+#### ``Profile``
 
-### [FitnessGoal](FitPlate/Model/FitnessGoal.swift)
+#### ``FitnessGoal``
 
-### [SavedRoutine](FitPlate/Model/SavedRoutine.swift)
+#### ``SavedRoutine``
 
-### [WorkoutRoutine](FitPlate/Model/WorkoutRoutine.swift)
+#### ``WorkoutRoutine``
