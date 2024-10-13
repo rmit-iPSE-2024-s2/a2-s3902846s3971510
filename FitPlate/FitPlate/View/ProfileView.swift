@@ -73,7 +73,7 @@ struct ProfileView: View {
                         }
                     }
                 }
-
+                //test
                 // Edit Profile button
                 NavigationLink(destination: EditProfileView(profile: profile)) {
                     Text("Edit Profile")
