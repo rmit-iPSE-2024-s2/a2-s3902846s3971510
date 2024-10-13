@@ -109,4 +109,29 @@ final class FitPlateTest: XCTestCase {
         XCTAssertTrue(goal.workoutCompleted)
     }
 
+    func testPasswordValidation() {
+            let user = User(email: "test@example.com", password: "Password123!")
+            XCTAssertTrue(user.isPasswordValid())
+        }
+
+    func testEmailValidation() {
+            let user = User(email: "test@example.com", password: "Password123!")
+            XCTAssertTrue(user.isEmailValid())
+        }
+
+    func testUpdateCredentials() {
+            let user = User(email: "old@example.com", password: "OldPass123!")
+            XCTAssertTrue(user.updateCredentials(newEmail: "new@example.com", newPassword: "NewPass123!"))
+            XCTAssertEqual(user.email, "new@example.com")
+            XCTAssertEqual(user.password, "NewPass123!")
+        }
+
+    func testAccountActive() {
+            let user = User(email: "test@example.com", password: "Password123!")
+            XCTAssertTrue(user.isAccountActive())
+        }
+    
+    
+   
+    
 }
