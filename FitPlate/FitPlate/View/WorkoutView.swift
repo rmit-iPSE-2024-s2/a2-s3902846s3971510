@@ -255,9 +255,6 @@ struct WorkoutDetailModal: View {
                 .padding()
                 .multilineTextAlignment(.center)
             
-            Button("Close") {
-                // Placeholder action for closing the modal
-            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
