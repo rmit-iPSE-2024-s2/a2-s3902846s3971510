@@ -6,59 +6,31 @@ import SwiftUI
  This view fetches recipes from TheMealDB API by category and cuisine type. If no recipes match the criteria, a message is shown to the user.
  */
 struct FilteredRecipesView: View {
-    
-    /// The selected recipe category for filtering.
     var selectedCategory: String
-    
-    /// The selected cuisine type for filtering.
     var selectedCuisine: String
-    
-    /// A state property holding the filtered list of recipes.
     @State private var filteredRecipes: [Recipe] = []
+    @State private var zoomedRecipeID: String? = nil
 
     var body: some View {
         NavigationView {
-            // Display either the filtered recipes or a message if none are found
             if filteredRecipes.isEmpty {
-                VStack {
-                    Spacer()
-                    Text("No recipes found for \(selectedCategory) in \(selectedCuisine).")
-                        .padding()
-                        .multilineTextAlignment(.center)
-                    Spacer()
-                }
+                Text("No recipes found for \(selectedCategory) in \(selectedCuisine).")
+                    .multilineTextAlignment(.center)
             } else {
-                // Display the list of filtered recipes
                 List(filteredRecipes, id: \.id) { recipe in
-                    VStack(alignment: .leading) {
-                        // Load and display the recipe image, or a placeholder if it is still loading
-                        if let imageUrl = URL(string: recipe.strMealThumb) {
-                            AsyncImage(url: imageUrl) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(height: 200)
-                                    .clipped()
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(height: 200)
-                            }
-                        }
-                        
-                        // Display the recipe name and region
-                        Text(recipe.strMeal)
-                            .font(.headline)
-                        Text(recipe.strArea ?? "No region info")
-                            .foregroundColor(.secondary)
-                            .font(.subheadline)
-                    }
+                    RecipeCardView(recipe: recipe,
+                                   isZoomed: Binding<Bool>(
+                                       get: { self.zoomedRecipeID == recipe.id },
+                                       set: { isZoomed in
+                                           self.zoomedRecipeID = isZoomed ? recipe.id : nil
+                                       }
+                                   ))
                 }
             }
         }
         .onAppear {
-            // Fetch and filter recipes when the view appears
             loadRecipesByCategory()
-        }
+        }.padding(.bottom, 10)
     }
 
     /**
@@ -66,6 +38,51 @@ struct FilteredRecipesView: View {
      
      This function makes an API call to retrieve recipes for the selected category and then loads detailed information for each recipe to filter them by cuisine type.
      */
+    
+    struct RecipeCardView: View {
+        let recipe: Recipe
+        @Binding var isZoomed: Bool  // Now a binding
+
+        var body: some View {
+            VStack(alignment: .leading) {
+                AsyncImage(url: URL(string: recipe.strMealThumb)) { image in
+                    image.resizable()
+                         .aspectRatio(contentMode: .fill)
+                         .frame(height: isZoomed ? 100 : 200)
+                         .clipped()
+                } placeholder: {
+                    ProgressView().frame(height: 200)
+                }
+
+                Text(recipe.strMeal)
+                    .font(isZoomed ? .title : .headline)
+                    .padding(.top, 5)
+
+                if let area = recipe.strArea {
+                    Text(area)
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                }
+
+                if isZoomed {
+                    Text("Ingredients and Instructions:")
+                        .font(.headline)
+                    // Assuming ingredients and instructions are available
+                    Text(recipe.strInstructions ?? "")
+                        .font(.body)
+                        .padding()
+                }
+
+            }
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+            .onTapGesture (count:2) {
+                withAnimation {
+                    isZoomed.toggle()
+                }
+            }
+        }
+    }
     
     
     func loadRecipesByCategory() {
@@ -133,6 +150,8 @@ struct Recipe: Codable, Identifiable {
     
     /// The region or cuisine the meal belongs to. This property is optional as not all recipes may have region information.
     var strArea: String?
+    
+    var strInstructions: String?
 
     /// The computed ID, required to conform to the `Identifiable` protocol.
     var id: String { idMeal }
