@@ -77,7 +77,7 @@ struct ProfileView: View {
                         .font(.headline)
                         .frame(minWidth: 120)
                         .padding()
-                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // pink color
+                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // pink
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }

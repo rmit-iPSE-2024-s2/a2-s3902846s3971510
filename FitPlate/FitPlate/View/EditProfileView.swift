@@ -10,6 +10,7 @@ import SwiftData
  */
 
 struct EditProfileView: View {
+    
     /// Access to the SwiftData model context for saving and updating profiles.
     @Environment(\.modelContext) var modelContext
     
@@ -70,7 +71,7 @@ struct EditProfileView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green color
+                    .background(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
@@ -97,7 +98,7 @@ struct EditProfileView: View {
     }
 
     /**
-     Saves the profile details by either updating an existing profile or editing the blank profile.
+     Saves the profile details by either updating an existing profile or editing the blank profile when account is first created
      
      If the `profile` is not `nil`, the existing profile is updated with the new values entered by the user. If the `profile` is `nil`, a new profile is created and inserted into the SwiftData model.
      

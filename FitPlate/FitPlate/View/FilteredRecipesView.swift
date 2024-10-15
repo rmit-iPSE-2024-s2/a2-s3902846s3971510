@@ -6,6 +6,7 @@ import SwiftUI
  This view fetches recipes from TheMealDB API by category and cuisine type. If no recipes match the criteria, a message is shown to the user.
  */
 struct FilteredRecipesView: View {
+    
     var selectedCategory: String
     var selectedCuisine: String
     @State private var filteredRecipes: [Recipe] = []
@@ -41,7 +42,7 @@ struct FilteredRecipesView: View {
     
     struct RecipeCardView: View {
         let recipe: Recipe
-        @Binding var isZoomed: Bool  // Now a binding
+        @Binding var isZoomed: Bool
 
         var body: some View {
             VStack(alignment: .leading) {
@@ -138,6 +139,8 @@ struct FilteredRecipesView: View {
  
  It contains basic information such as the meal name, ID, thumbnail URL, and optional region information.
  */
+
+
 struct Recipe: Codable, Identifiable {
     /// The unique ID of the meal.
     let idMeal: String
@@ -157,11 +160,13 @@ struct Recipe: Codable, Identifiable {
     var id: String { idMeal }
 }
 
+
 /**
  The `MealResponse` model represents the response from TheMealDB API for a list of meals.
  
  It contains a list of `Recipe` objects retrieved from the TheMealDB API.
  */
+
 
 struct MealResponse: Codable {
     

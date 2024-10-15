@@ -12,19 +12,20 @@ class Profile {
     var goalWeight: Int
     var calories: Int
     var stepGoal: Int
-    var profileImageData: Data?  // Store the profile image as Data
-
+    var profileImageData: Data?  // Store the profile image as Data from UIKit Image picker and SwiftData
+    
     /**
-     Initializes a new `Profile` instance with default or provided values.
+     Initialises a new `Profile` instance with default or provided values.
      
      - Parameters:
-       - username: The user's username. Defaults to `"Username"`.
-       - goal: The user's fitness goal. Defaults to an empty string.
-       - goalWeight: The target goal weight in kilograms. Defaults to `0`.
+       - username: The user's username. Defaults to empty string.
+       - goal: The user's fitness goal. Defaults to empty string.
+       - goalWeight: The target goal weight in kilograms. Defaults to `60`.
        - calories: The daily calorie intake goal. Defaults to `2000`.
        - stepGoal: The daily step goal. Defaults to `10000`.
      */
-    init(username: String = "Username", goal: String = "", goalWeight: Int = 0, calories: Int = 2000, stepGoal: Int = 10000, profileImageData: Data? = nil) {
+    
+    init(username: String = "", goal: String = "", goalWeight: Int = 60, calories: Int = 2000, stepGoal: Int = 10000, profileImageData: Data? = nil) {
         self.username = username
         self.goal = goal
         self.goalWeight = goalWeight
@@ -39,7 +40,11 @@ extension Profile {
     /**
      Updates the profile with new fitness goal details.
      */
-    func updateProfile(goal: String, goalWeight: Int, calories: Int, stepGoal: Int) {
+    
+    func updateProfile(goal: String, 
+                       goalWeight: Int,
+                       calories: Int,
+                       stepGoal: Int) {
         self.goal = goal
         self.goalWeight = goalWeight
         self.calories = calories
@@ -49,6 +54,7 @@ extension Profile {
     /**
      Calculates the user's progress towards their step goal.
      */
+    
     func progressTowardsStepGoal(currentSteps: Int) -> Double {
         return Double(currentSteps) / Double(stepGoal)
     }
@@ -56,6 +62,7 @@ extension Profile {
     /**
      Calculates the user's progress towards their weight goal.
      */
+    
     func progressTowardsWeightGoal(currentWeight: Int) -> Double {
         if goalWeight == 0 || currentWeight == 0 {
             return 0.0
@@ -66,6 +73,7 @@ extension Profile {
     /**
      Validates if the calorie goal is within a reasonable range.
      */
+    
     func validateCalories() -> Bool {
         return calories >= 1200 && calories <= 4000
     }
@@ -73,6 +81,7 @@ extension Profile {
     /**
      Validates if the step goal is within a reasonable range.
      */
+    
     func validateStepGoal() -> Bool {
         return stepGoal >= 1000 && stepGoal <= 30000
     }

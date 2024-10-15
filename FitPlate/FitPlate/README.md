@@ -16,6 +16,7 @@ FitPlate is a fitness tracking app that allows users to log their fitness goals,
 - **Fitness Goals**: Users can set daily goals for steps, calories, and weight.
 - **Workout Routines**: Users can save and track various workout routines.
 - **Profile Management**: Users can update their profile information, including username, fitness goals, and more.
+- **Workout Widget**: The widget displays saved workout routines, allowing users to see their routines without opening the app.
 
 ## How to Run the Project
 
@@ -25,5 +26,6 @@ FitPlate is a fitness tracking app that allows users to log their fitness goals,
 
 ## Documentation
 
-The complete project documentation is available within the app in `.docc` format. You can view the documentation in Xcode by selecting **Product > Build Documentation**
+The complete project documentation is available within the app in `.docc` format. 
+You can view the documentation in Xcode by selecting **Product > Build Documentation**
 

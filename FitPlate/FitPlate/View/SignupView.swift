@@ -33,6 +33,7 @@ struct SignupView: View {
      
      - `login`: Represents the destination to navigate to the login screen.
      */
+    
     enum NavigationDestination {
         case login
     }
@@ -93,7 +94,8 @@ struct SignupView: View {
             }
             .padding()
             .alert(isPresented: $showError) {  // Error alert
-                Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Error"), 
+                      message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
             // Handle navigation using `navigationDestination`
             .navigationDestination(for: NavigationDestination.self) { destination in
@@ -116,15 +118,15 @@ struct SignupView: View {
     private func signUpUser() {
         // Validate that the passwords match
         guard password == confirmPassword else {
-            errorMessage = "Passwords do not match."  // Set error message if passwords do not match
-            showError = true  // Show error alert
+            errorMessage = "Passwords do not match."  // Error message if passwords do not match
+            showError = true  // to show error alert
             return
         }
         
         // Validate that the email and password are not empty
         guard !email.isEmpty, !password.isEmpty else {
-            errorMessage = "Email or password cannot be empty."  // Set error message for empty fields
-            showError = true  // Show error alert
+            errorMessage = "Email or password cannot be empty."  // Error message for empty fields
+            showError = true  // to show error alert
             return
         }
 

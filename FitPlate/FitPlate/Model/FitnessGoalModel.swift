@@ -2,6 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
+
 /**
 A model class representing a user's fitness goals and tracking the status of various fitness goals
  */
@@ -17,7 +18,7 @@ class FitnessGoal {
     var availableGoals: [String]
 
     /**
-     Initializes a new `FitnessGoal` instance with default or provided values for each goal.
+     Initialises a new `FitnessGoal` instance with default or provided values for each goal.
      */
     
     init(workoutCompleted: Bool = false,
@@ -62,6 +63,7 @@ extension FitnessGoal {
         activeGoals.contains(goal)
     }
     
+    /// to mark completed
     func updateWorkoutCompletion(status: Bool) {
         workoutCompleted = status
     }

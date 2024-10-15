@@ -82,7 +82,7 @@ struct LoginView: View {
      Attempts to log in the user by validating the entered email and password in the relevant input fields.
      If the credentials match an existing user, the user is logged in, and the main app view is presented.
      
-     If the email or password fields are empty, an error message is displayed.
+     Input fields cannot be empty. If the email or password fields are empty, an error message is displayed. 
      An error message is shown for invalid credentials.
      */
     
@@ -90,8 +90,8 @@ struct LoginView: View {
     private func loginUser() {
         // Validate that email and password are not empty
         guard !email.isEmpty, !password.isEmpty else {
-            errorMessage = "Email or password cannot be empty."  // Set error message for empty fields
-            showError = true  // Show error message
+            errorMessage = "Email or password cannot be empty."  // Error message for empty fields
+            showError = true  // show error message
             return
         }
 
@@ -102,8 +102,8 @@ struct LoginView: View {
             showError = false
         } else {
             // Credentials do not match: show error
-            errorMessage = "Invalid email or password."  // Set error message for invalid credentials
-            showError = true  // Show error message
+            errorMessage = "Invalid email or password."  // Error message for invalid credentials
+            showError = true  // show error message
         }
     }
 }

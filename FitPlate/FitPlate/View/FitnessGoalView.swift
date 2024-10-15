@@ -201,7 +201,8 @@ struct AddGoalSheet: View {
 /**
  The `DailyGoalTracker` is a reusable view that displays tracked individual goal and its completion state.
  
- It provides a checkmark button to toggle the goal's completion status.
+ It provides a green checkmark button to toggle the goal's completion status.
+ 
  */
 
 struct DailyGoalTracker: View {

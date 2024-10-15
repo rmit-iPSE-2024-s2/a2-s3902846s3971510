@@ -15,17 +15,17 @@ class SavedRoutine {
     /// The name of the workout routine.
     var name: String
     
-    /// The name of the image associated with the workout routine.
+    /// The name of the workout routine image.
     var imageName: String
     
-    /// The duration of the workout routine, represented as a string (e.g., "30 mins").
+    /// The duration of the workout routine as a string.
     var time: String
     
     /// A brief description of the workout routine.
     var workoutDescription: String
 
     /**
-     Initializes a new `SavedRoutine` object with the provided name, image name, duration, and description.
+     Initialises a new `SavedRoutine` object with the provided name, image name, duration, and description.
      
      - Parameters:
         - name: The name of the workout routine.

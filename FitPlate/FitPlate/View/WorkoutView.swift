@@ -321,7 +321,7 @@ struct WorkoutRoutine: Identifiable {
     let detailedDesc: String
 
     /**
-     Initializes a new `WorkoutRoutine` instance.
+     Initialises a new `WorkoutRoutine` instance.
      
      - Parameters:
        - name: The name of the workout.

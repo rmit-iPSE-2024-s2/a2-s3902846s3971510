@@ -66,7 +66,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         let parent: ImagePicker
 
         /**
-         Initializes the coordinator with a reference to the parent `ImagePicker`.
+         Initialises the coordinator with a reference to the parent `ImagePicker`.
          
          - Parameter parent: The parent `ImagePicker` instance.
          */

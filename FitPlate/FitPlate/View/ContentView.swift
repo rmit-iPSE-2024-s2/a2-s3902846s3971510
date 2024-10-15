@@ -8,12 +8,12 @@
 import SwiftUI
 
 /**
- The `AnimatedTextView` displays the app's logo text "FitPlate" with an animated appearance effect.
+ The `AnimatedTextView` displays the app's logo text "FitPlate" with an animated slide/fade in effect.
  */
 
 struct AnimatedTextView: View {
     
-    /// State variable to control the visibility and fade animation of the "Plate" text.
+    /// State variable to control the visibility and fade/slide animation of the "Plate" text.
 
     @State private var isVisible = false
     
@@ -23,13 +23,13 @@ struct AnimatedTextView: View {
             Text("Fit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))  // Orange color
+                .foregroundColor(Color(red: 1.0, green: 0.569, blue: 0.396))  // Orange
 
             // "Plate" portion of the logo with animation
             Text("Plate")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green color
+                .foregroundColor(Color(red: 0.404, green: 0.773, blue: 0.702))  // Green
                 .opacity(isVisible ? 1 : 0)  // Fade in effect
                 .scaleEffect(isVisible ? 1 : 0.5)  // Scale in effect
                 .onAppear {
@@ -45,6 +45,8 @@ struct AnimatedTextView: View {
 /**
  The `ContentView` serves as the launch screen of the FitPlate app, displaying an animated logo, the app logo image, and a button to navigate to the sign-up view.
  */
+
+
 struct ContentView: View {
     var body: some View {
         NavigationStack {
@@ -63,13 +65,13 @@ struct ContentView: View {
                     Text("Get Started")
                         .padding()
                         .frame(minWidth: 200)
-                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // Pink color
+                        .background(Color(red: 0.819, green: 0.302, blue: 0.408))  // Pink
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
                 .padding()
             }
-            .navigationTitle("")  // Remove the navigation title for a cleaner look
+            .navigationTitle("")  
         }
     }
 }

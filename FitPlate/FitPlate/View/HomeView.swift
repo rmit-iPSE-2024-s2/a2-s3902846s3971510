@@ -14,6 +14,7 @@ import SwiftUI
  
  These are hard coded values are are not currently fetched or stored in SwiftData.
  */
+
 struct HomeView: View {
 
     var body: some View {
@@ -27,7 +28,7 @@ struct HomeView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
 
-                    // Display app name: "FitPlate"
+                    // App name as header "FitPlate"
                     HStack(spacing: 0) {
                         Text("Fit")
                             .font(.largeTitle)

@@ -14,6 +14,7 @@ import SwiftUI
  
  Each section is represented by an icon and label.
  */
+
 struct BottomNavBarView: View {
     var body: some View {
         TabView {
@@ -52,7 +53,7 @@ struct BottomNavBarView: View {
                     Text("Profile")
                 }
         }
-        // Set the accent color for the tab icons when selected
+        // Accent colour for tab selected
         .accentColor(Color(red: 0.404, green: 0.773, blue: 0.702))
     }
 }

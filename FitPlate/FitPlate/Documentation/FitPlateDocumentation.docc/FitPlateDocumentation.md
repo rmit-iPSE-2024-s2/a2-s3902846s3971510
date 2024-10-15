@@ -10,7 +10,8 @@ FitPlate's main features include:
 - Fitness goal tracking (steps, calories, water intake).
 - Saved workout routines.
 - Profile management and editing.
-- A dashboard displaying key metrics and progress.
+- A widget displays that saved workout routines.
+
 
 ## Views
 

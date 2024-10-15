@@ -8,7 +8,7 @@ import SwiftUI
 
 struct RecipeView: View {
     
-    /// Represents the response from the categories API, containing a list of `Category` objects.
+    /// Represents the response from the categories API, containing a list of `Category` objects
     struct CategoriesResponse: Codable {
         let categories: [Category]
     }
@@ -146,7 +146,9 @@ struct RecipeView: View {
     
     
     @ViewBuilder
-    private func menuDropdown(title: String, items: [String], selectedItem: Binding<String>) -> some View {
+    private func menuDropdown(title: String, 
+                              items: [String],
+                              selectedItem: Binding<String>) -> some View {
         VStack(alignment: .leading) {
             Text(title).font(.headline)
             Menu {
