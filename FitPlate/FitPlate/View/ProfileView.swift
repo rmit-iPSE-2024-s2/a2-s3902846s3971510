@@ -12,6 +12,7 @@ import UIKit
 /**
  The `ProfileView` displays the user's profile, including the profile picture, username, and fitness goals.
  */
+
 struct ProfileView: View {
     
     /// A SwiftUI `Image` representing the user's profile picture. If nil, a default placeholder image is shown.
@@ -68,7 +69,7 @@ struct ProfileView: View {
 
             // Buttons to edit profile picture or edit profile details.
             HStack(spacing: 20) {
-                // Button to show the UIKit-based image picker.
+                // Button to show the UIKit image picker.
                 Button(action: {
                     showImagePicker = true  // Show the UIKit Image Picker
                 }) {
@@ -122,7 +123,14 @@ struct ProfileView: View {
 
             Spacer()  /// Pushes content to the top of the view.
         }
-        .padding()  /// Adds padding around the VStack.
+        .padding()
+        .onAppear {
+            if let profile = profiles.first, let imageData = profile.profileImageData {
+                if let uiImage = UIImage(data: imageData) {
+                    profileImage = Image(uiImage: uiImage)
+                }
+            }
+        }
     }
 
     /**
@@ -131,9 +139,15 @@ struct ProfileView: View {
      This function is triggered whenever the `inputImage` changes.
      */
     
-    
     private func loadImage() {
         guard let inputImage = inputImage else { return }
         profileImage = Image(uiImage: inputImage)
+        
+        if let profile = profiles.first {
+            if let imageData = inputImage.jpegData(compressionQuality: 0.8) {
+                profile.profileImageData = imageData
+                try? modelContext.save()
+            }
+        }
     }
 }

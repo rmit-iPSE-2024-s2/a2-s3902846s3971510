@@ -6,7 +6,6 @@ import SwiftUI
  The view performs basic validation to ensure the password and confirmation match, and that the email and password are not empty. Upon successful sign-up, the user is navigated to the login page.
  */
 
-
 struct SignupView: View {
     
     /// User Sign Up data to be stored.
@@ -34,7 +33,6 @@ struct SignupView: View {
      
      - `login`: Represents the destination to navigate to the login screen.
      */
-    
     enum NavigationDestination {
         case login
     }
@@ -86,8 +84,12 @@ struct SignupView: View {
                 Spacer()
 
                 // Navigation link to login view if already a member
-                NavigationLink("Already a member? Login", value: NavigationDestination.login)
-                    .foregroundColor(.blue)
+                Button(action: {
+                    path.append(.login)  // Navigate to LoginView
+                }) {
+                    Text("Already a member? Login")
+                        .foregroundColor(.blue)
+                }
             }
             .padding()
             .alert(isPresented: $showError) {  // Error alert
@@ -104,13 +106,11 @@ struct SignupView: View {
     }
 
     /**
-     
      Validates the input fields and attempts to sign up the user.
      
-     If the password and confirm password fields do not match, or if any required fields are empty, it sets an error message and displays an alert. 
+     If the password and confirm password fields do not match, or if any required fields are empty, it sets an error message and displays an alert.
      
      If validation passes, a new `User` is created and saved to the model context. The user is then navigated to the login screen upon successful sign-up.
-     
      */
     
     private func signUpUser() {
